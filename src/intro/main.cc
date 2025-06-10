@@ -17,8 +17,8 @@ int main( [[maybe_unused]] int argc, [[maybe_unused]] char* argv[] ) {
     dbg( "hello world" );
     std::cout << cv::getBuildInformation() << std::endl;
     std::map< int, int > myMap;
-    CLI::App app{ fmt::format( "{} version {}", c_cpp_template::cmake::project_name,
-                               c_cpp_template::cmake::project_version ) };
+    CLI::App app{ fmt::format( "{} version {}", zmotion_upper::cmake::project_name,
+                               zmotion_upper::cmake::project_version ) };
     bool show_version = false;
     app.add_flag( "-v,--version", show_version, "show version" );
     CLI11_PARSE( app, argc, argv );

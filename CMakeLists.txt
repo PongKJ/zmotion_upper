@@ -15,20 +15,20 @@ endif()
 
 # Set the project name and language
 project(
-  c_cpp_template
+  zmotion_upper
   VERSION 0.0.7
   DESCRIPTION ""
-  HOMEPAGE_URL "%%myurl%%"
+  HOMEPAGE_URL "https://github.com/PongKJ/zmotion_upper"
   LANGUAGES CXX C)
 
 include(cmake/PreventInSourceBuilds.cmake)
 include(ProjectOptions.cmake)
 
-c_cpp_template_setup_options()
+zmotion_upper_setup_options()
 
-c_cpp_template_global_options()
+zmotion_upper_global_options()
 
-c_cpp_template_local_options()
+zmotion_upper_local_options()
 
 # don't know if this should be set globally from here or not...
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
@@ -42,13 +42,13 @@ string(
             8
             GIT_SHORT_SHA)
 
-target_compile_features(c_cpp_template_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
+target_compile_features(zmotion_upper_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 
-add_library(c_cpp_template::c_cpp_template_options ALIAS c_cpp_template_options)
-add_library(c_cpp_template::c_cpp_template_warnings ALIAS c_cpp_template_warnings)
+add_library(zmotion_upper::zmotion_upper_options ALIAS zmotion_upper_options)
+add_library(zmotion_upper::zmotion_upper_warnings ALIAS zmotion_upper_warnings)
 
-# add_library(c_cpp_template::c_cpp_template_options INTERFACE IMPORTED)
-# add_library(c_cpp_template::c_cpp_template_warnings INTERFACE IMPORTED)
+# add_library(zmotion_upper::zmotion_upper_options INTERFACE IMPORTED)
+# add_library(zmotion_upper::zmotion_upper_warnings INTERFACE IMPORTED)
 
 # configure files based on CMake configuration options
 add_subdirectory(configured_files)
@@ -69,9 +69,9 @@ if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
-if(c_cpp_template_BUILD_FUZZ_TESTS)
+if(zmotion_upper_BUILD_FUZZ_TESTS)
   message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
-  if(NOT c_cpp_template_ENABLE_ADDRESS_SANITIZER AND NOT c_cpp_template_ENABLE_THREAD_SANITIZER)
+  if(NOT zmotion_upper_ENABLE_ADDRESS_SANITIZER AND NOT zmotion_upper_ENABLE_THREAD_SANITIZER)
     message(WARNING "You need asan or tsan enabled for meaningful fuzz testing")
   endif()
   add_subdirectory(fuzz_test)
@@ -98,11 +98,11 @@ include(cmake/PackageProject.cmake)
 
 # Add other targets that you want installed here, by default we just package the one executable we
 # know we want to ship
-c_cpp_template_package_project(
+zmotion_upper_package_project(
   TARGETS
   intro
-  # c_cpp_template_options
-  # c_cpp_template_warnings
+  # zmotion_upper_options
+  # zmotion_upper_warnings
   # FIXME: this does not work! CK PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
 )
 

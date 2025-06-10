@@ -3,7 +3,7 @@
 # https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
 
 function(
-  c_cpp_template_set_project_warnings
+  zmotion_upper_set_project_warnings
   project
   WARNINGS_AS_ERRORS
   MSVC_WARNINGS
