@@ -1,2 +1,3 @@
 add_subdirectory(sample_library)
-add_subdirectory(intro)
+add_subdirectory(gui)
+add_subdirectory(ElaWidgetTools)

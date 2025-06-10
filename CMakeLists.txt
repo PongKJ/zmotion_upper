@@ -7,12 +7,6 @@ if(NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
 endif()
 
-# strongly encouraged to enable this globally to avoid conflicts between -Wpedantic being enabled
-# and -std=c++20 and -std=gnu++20 for example when compiling with PCH enabled
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-  set(CMAKE_CXX_EXTENSIONS ON)
-endif()
-
 # Set the project name and language
 project(
   zmotion_upper
@@ -20,6 +14,12 @@ project(
   DESCRIPTION ""
   HOMEPAGE_URL "https://github.com/PongKJ/zmotion_upper"
   LANGUAGES CXX C)
+
+# strongly encouraged to enable this globally to avoid conflicts between -Wpedantic being enabled
+# and -std=c++20 and -std=gnu++20 for example when compiling with PCH enabled
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  set(CMAKE_CXX_EXTENSIONS ON)
+endif()
 
 include(cmake/PreventInSourceBuilds.cmake)
 include(ProjectOptions.cmake)
@@ -88,7 +88,7 @@ if(MSVC)
 endif()
 
 # set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gui)
 
 if(CMAKE_SKIP_INSTALL_RULES)
   return()
@@ -100,7 +100,7 @@ include(cmake/PackageProject.cmake)
 # know we want to ship
 zmotion_upper_package_project(
   TARGETS
-  intro
+  gui
   # zmotion_upper_options
   # zmotion_upper_warnings
   # FIXME: this does not work! CK PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
