@@ -1,982 +1,949 @@
-/********************************** ZMCÏµÁĞ¿ØÖÆÆ÷  ************************************************
-**--------------ÎÄ¼şĞÅÏ¢--------------------------------------------------------------------------------
-**ÎÄ¼şÃû: zmotion.h
-**´´½¨ÈË: Ö£Ğ¢Ñó
-**Ê±¼ä: 20121008
-**ÃèÊö: ZMCDLL Íâ²¿½Ó¿Úº¯Êı
+/********************************** ZMCç³»åˆ—æ§åˆ¶å™¨  ************************************************
+**--------------æ–‡ä»¶ä¿¡æ¯--------------------------------------------------------------------------------
+**æ–‡ä»¶å: zmotion.h
+**åˆ›å»ºäºº: éƒ‘å­æ´‹
+**æ—¶é—´: 20121008
+**æè¿°: ZMCDLL å¤–éƒ¨æ¥å£å‡½æ•°
 
-**------------ĞŞ¶©ÀúÊ·¼ÇÂ¼----------------------------------------------------------------------------
-** ĞŞ¸ÄÈË: 
-** °æ  ±¾: 
-** ÈÕ¡¡ÆÚ: 
-** Ãè¡¡Êö: 
+**------------ä¿®è®¢å†å²è®°å½•----------------------------------------------------------------------------
+** ä¿®æ”¹äºº:
+** ç‰ˆ  æœ¬:
+** æ—¥ã€€æœŸ:
+** æã€€è¿°:
 **
 **------------------------------------------------------------------------------------------------------
 ********************************************************************************************************/
 
-
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
-
 
 #ifndef _ZMOTION_DLL_H
 #define _ZMOTION_DLL_H
 
-
 /*********************************************************
-Êı¾İÀàĞÍ¶¨Òå
+æ•°æ®ç±»å‹å®šä¹‰
 **********************************************************/
 
-typedef unsigned __int64   uint64;  
-typedef __int64   int64;  
+typedef unsigned __int64 uint64;
+typedef __int64 int64;
 
+// #define BYTE           INT8U
+// #define WORD           INT16U
+// #define DWORD          INT32U
+typedef unsigned char BYTE;
+typedef unsigned short WORD;
+// typedef unsigned int  DWORD;
+// #define __stdcall
+typedef unsigned char uint8;   /* defined for unsigned 8-bits integer variable     æ— ç¬¦å·8ä½æ•´å‹å˜é‡  */
+typedef signed char int8;      /* defined for signed 8-bits integer variable        æœ‰ç¬¦å·8ä½æ•´å‹å˜é‡  */
+typedef unsigned short uint16; /* defined for unsigned 16-bits integer variable     æ— ç¬¦å·16ä½æ•´å‹å˜é‡ */
+typedef signed short int16;    /* defined for signed 16-bits integer variable         æœ‰ç¬¦å·16ä½æ•´å‹å˜é‡ */
+typedef unsigned int uint32;   /* defined for unsigned 32-bits integer variable     æ— ç¬¦å·32ä½æ•´å‹å˜é‡ */
+typedef signed int int32;      /* defined for signed 32-bits integer variable         æœ‰ç¬¦å·32ä½æ•´å‹å˜é‡ */
+typedef float fp32;            /* single precision floating point variable (32bits) å•ç²¾åº¦æµ®ç‚¹æ•°ï¼ˆ32ä½é•¿åº¦ï¼‰ */
+typedef double fp64;           /* double precision floating point variable (64bits) åŒç²¾åº¦æµ®ç‚¹æ•°ï¼ˆ64ä½é•¿åº¦ï¼‰ */
+typedef unsigned int uint;     /* defined for unsigned 32-bits integer variable     æ— ç¬¦å·32ä½æ•´å‹å˜é‡ */
 
-//#define BYTE           INT8U
-//#define WORD           INT16U
-//#define DWORD          INT32U
-typedef unsigned char  BYTE;
-typedef unsigned short  WORD;
-//typedef unsigned int  DWORD;
-//#define __stdcall 
-typedef unsigned char  uint8;                   /* defined for unsigned 8-bits integer variable     ÎŞ·ûºÅ8Î»ÕûĞÍ±äÁ¿  */
-typedef signed   char  int8;                    /* defined for signed 8-bits integer variable        ÓĞ·ûºÅ8Î»ÕûĞÍ±äÁ¿  */
-typedef unsigned short uint16;                  /* defined for unsigned 16-bits integer variable     ÎŞ·ûºÅ16Î»ÕûĞÍ±äÁ¿ */
-typedef signed   short int16;                   /* defined for signed 16-bits integer variable         ÓĞ·ûºÅ16Î»ÕûĞÍ±äÁ¿ */
-typedef unsigned int   uint32;                  /* defined for unsigned 32-bits integer variable     ÎŞ·ûºÅ32Î»ÕûĞÍ±äÁ¿ */
-typedef signed   int   int32;                   /* defined for signed 32-bits integer variable         ÓĞ·ûºÅ32Î»ÕûĞÍ±äÁ¿ */
-typedef float          fp32;                    /* single precision floating point variable (32bits) µ¥¾«¶È¸¡µãÊı£¨32Î»³¤¶È£© */
-typedef double         fp64;                    /* double precision floating point variable (64bits) Ë«¾«¶È¸¡µãÊı£¨64Î»³¤¶È£© */
-typedef unsigned int   uint;                  /* defined for unsigned 32-bits integer variable     ÎŞ·ûºÅ32Î»ÕûĞÍ±äÁ¿ */
-
-// Á¬½ÓÀàĞÍ, 
-enum ZMC_CONNECTION_TYPE
-{
+// è¿æ¥ç±»å‹,
+enum ZMC_CONNECTION_TYPE {
     ZMC_CONNECTION_COM = 1,
     ZMC_CONNECTION_ETH = 2,
     ZMC_CONNECTION_USB = 3,
     ZMC_CONNECTION_PCI = 4,
 
-    // ±¾µØÁ´½Ó, Ö±½ÓÄÚ´æ´«µİµÄ
-    ZMC_CONNECTION_LOCAL = 5,    
+    // æœ¬åœ°é“¾æ¥, ç›´æ¥å†…å­˜ä¼ é€’çš„
+    ZMC_CONNECTION_LOCAL = 5,
 };
 
-typedef struct
-{
+typedef struct {
 
-	//Ó²¼şID
-	uint32 m_hardid;
+    // ç¡¬ä»¶ID
+    uint32 m_hardid;
 
-	uint16 m_cardid; // ¶Ô±àºÅÒ»ÖÂ
+    uint16 m_cardid;  // å¯¹ç¼–å·ä¸€è‡´
 
-					 //
-	uint8 m_imaxin;
-	uint8 m_imaxout;
-	uint8 m_imaxad;
-	uint8 m_imaxda;
+    //
+    uint8 m_imaxin;
+    uint8 m_imaxout;
+    uint8 m_imaxad;
+    uint8 m_imaxda;
 
-	//ÖáÊı£¬·Ç0±íÊ¾´øÖá
-	uint8 m_iAxises;
+    // è½´æ•°ï¼Œé0è¡¨ç¤ºå¸¦è½´
+    uint8 m_iAxises;
 
-}struct_ChildCardInfo;
+} struct_ChildCardInfo;
 
-//È±Ê¡µÄµÈ´ıÊ±¼ä
-#define ZMC_DEFAULT_TIMEOUT   5000
+// ç¼ºçœçš„ç­‰å¾…æ—¶é—´
+#define ZMC_DEFAULT_TIMEOUT 5000
 
-//´®¿ÚÑÓÊ±ĞèÒª¸ü¼Ó³¤Ò»Ğ©
-#define ZMC_DEFAULT_TIMEOUT_COM   5000
+// ä¸²å£å»¶æ—¶éœ€è¦æ›´åŠ é•¿ä¸€äº›
+#define ZMC_DEFAULT_TIMEOUT_COM 5000
 
-
-//Í¨µÀ¾ä±ú¶¨Òå
-typedef  void* ZMC_HANDLE;
-
-
+// é€šé“å¥æŸ„å®šä¹‰
+typedef void* ZMC_HANDLE;
 
 /************************************************/
-//´íÎóÂë ÏêÏ¸µÄ´íÎóÂë³£¼ûËµÃ÷Êé»ò zerror.h
+// é”™è¯¯ç  è¯¦ç»†çš„é”™è¯¯ç å¸¸è§è¯´æ˜ä¹¦æˆ– zerror.h
 /************************************************/
-#define ERR_OK  0
+#define ERR_OK 0
 #define ERROR_OK 0
-#define ERR_SUCCESS  0
-
-
+#define ERR_SUCCESS 0
 
 /*********************************************************
-ÏµÍ³×´Ì¬¶¨Òå
+ç³»ç»ŸçŠ¶æ€å®šä¹‰
 **********************************************************/
-enum ZBASIC_TASKSTATE
-{
+enum ZBASIC_TASKSTATE {
     TASK_STATE_RUNING = 1,
-    TASK_STATE_PAUSE = 3, 
-    TASK_STATE_STOP = 0,
+    TASK_STATE_PAUSE  = 3,
+    TASK_STATE_STOP   = 0,
 
-    /************  ÏÂÃæÊÇtrioÌØÊâ×´Ì¬, ÔİÊ±²»Ö§³Ö  ************/
-    //²½½ø
-    TASK_STATE_STEP = 2,
+    /************  ä¸‹é¢æ˜¯trioç‰¹æ®ŠçŠ¶æ€, æš‚æ—¶ä¸æ”¯æŒ  ************/
+    // æ­¥è¿›
+    TASK_STATE_STEP    = 2,
     TASK_STATE_PAUSING = 4,
     TASK_STATE_STOPING = 5,
-    
-    TASK_STATE_ERROR = 100,//²éÑ¯µÄÊ±ºòÈç¹ûID´í·µ»ØÕâ¸öÖµ, ½Å±¾³õÊ¼»¯·¢ÏÖÓï·¨´íÎóÒ²·µ»ØÕâ¸ö´íÎó
+
+    TASK_STATE_ERROR = 100,  // æŸ¥è¯¢çš„æ—¶å€™å¦‚æœIDé”™è¿”å›è¿™ä¸ªå€¼, è„šæœ¬åˆå§‹åŒ–å‘ç°è¯­æ³•é”™è¯¯ä¹Ÿè¿”å›è¿™ä¸ªé”™è¯¯
 };
 
-//ĞÂÔö¼Ó
-#define  SYS_STATE_CANNOT_CONNECT   50 //Á´½Ó²»ÉÏ
-
-
-
-
+// æ–°å¢åŠ 
+#define SYS_STATE_CANNOT_CONNECT 50  // é“¾æ¥ä¸ä¸Š
 
 /*************************************************************
-Description:    //×Ó¿¨ĞÅÏ¢¶ÁÈ¡
-Input:          //¿¨Á´½Óhandle
+Description:    //å­å¡ä¿¡æ¯è¯»å–
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_EnumChildCard(ZMC_HANDLE handle, uint16 lastid, struct_ChildCardInfo *pCard);
-
+int32 __stdcall ZMC_EnumChildCard( ZMC_HANDLE handle, uint16 lastid, struct_ChildCardInfo* pCard );
 
 /*************************************************************
-Description:    //Èí¼ş°æ±¾ºÅ£¬ÓÃÈÕÆÚ±êÊ¶
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //è½¯ä»¶ç‰ˆæœ¬å·ï¼Œç”¨æ—¥æœŸæ ‡è¯†
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_GetSoftVersion(ZMC_HANDLE handle, float *pVersion, char *pVerString, uint32 *pVerDate);
-
+uint32 __stdcall ZMC_GetSoftVersion( ZMC_HANDLE handle, float* pVersion, char* pVerString, uint32* pVerDate );
 
 /*************************************************************
-Description:    //¶ÁÈ¡dllµÄ°æ±¾ºÅ, ÓÃÓÚÅĞ¶Ïµ±Ç°dllÊÇÄÄ¸ö?
-Input:          //ÎŞ
+Description:    //è¯»å–dllçš„ç‰ˆæœ¬å·, ç”¨äºåˆ¤æ–­å½“å‰dllæ˜¯å“ªä¸ª?
+Input:          //æ— 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetDllVersion(char *pverstring);
-
+int32 __stdcall ZMC_GetDllVersion( char* pverstring );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó
-Input:          //ÎŞ
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥
+Input:          //æ— 
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Open(ZMC_CONNECTION_TYPE type, char *pconnectstring ,ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_Open( ZMC_CONNECTION_TYPE type, char* pconnectstring, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó, ¿ÉÒÔÖ¸¶¨Á¬½ÓµÄµÈ´ıÊ±¼ä
-Input:          //ÎŞ
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥, å¯ä»¥æŒ‡å®šè¿æ¥çš„ç­‰å¾…æ—¶é—´
+Input:          //æ— 
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_FastOpen(ZMC_CONNECTION_TYPE type, char *pconnectstring, uint32 uims ,ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_FastOpen( ZMC_CONNECTION_TYPE type, char* pconnectstring, uint32 uims, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó£¬ ´®¿Ú·½Ê½.
-Input:          //ÎŞ
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥ï¼Œ ä¸²å£æ–¹å¼.
+Input:          //æ— 
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_OpenCom(uint32 comid, ZMC_HANDLE * phandle);
-
+int32 __stdcall ZMC_OpenCom( uint32 comid, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //¿ÉÒÔĞŞ¸ÄÈ±Ê¡µÄ²¨ÌØÂÊµÈÉèÖÃ
+Description:    //å¯ä»¥ä¿®æ”¹ç¼ºçœçš„æ³¢ç‰¹ç‡ç­‰è®¾ç½®
 
 uint32 dwByteSize = 8, uint32 dwParity = NOPARITY, uint32 dwStopBits = ONESTOPBIT
 
 Input:          //
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetComDefaultBaud(uint32 dwBaudRate, uint32 dwByteSize, uint32 dwParity, uint32 dwStopBits);
+int32 __stdcall ZMC_SetComDefaultBaud( uint32 dwBaudRate, uint32 dwByteSize, uint32 dwParity, uint32 dwStopBits );
 
 /*************************************************************
-Description:    //¿ÉÒÔĞŞ¸ÄÈ±Ê¡µÄ´®¿ÚID£¬ ÆäËüPORT²»Ö§³ÖĞŞ¸Ä.
+Description:    //å¯ä»¥ä¿®æ”¹ç¼ºçœçš„ä¸²å£IDï¼Œ å…¶å®ƒPORTä¸æ”¯æŒä¿®æ”¹.
 Input:          //
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetComDefaultID(uint8 uid);
+int32 __stdcall ZMC_SetComDefaultID( uint8 uid );
 
 /*************************************************************
-Description:    //ÍøÂçµÄÁ´½ÓÃÜÂë
+Description:    //ç½‘ç»œçš„é“¾æ¥å¯†ç 
 Input:          //
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetConnectSecureID(uint32 uid);
+int32 __stdcall ZMC_SetConnectSecureID( uint32 uid );
 
 /*************************************************************
-Description:    //¶Ô´®¿Ú£¬ĞŞ¸Äµ±Ç°µÄID£¬ ÓÃÓÚÏÂ´ÎµÄÍ¨Ñ¶.  ²»ĞŞ¸ÄÈ±Ê¡µÄID.
+Description:    //å¯¹ä¸²å£ï¼Œä¿®æ”¹å½“å‰çš„IDï¼Œ ç”¨äºä¸‹æ¬¡çš„é€šè®¯.  ä¸ä¿®æ”¹ç¼ºçœçš„ID.
 Input:          //
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetComCurID(ZMC_HANDLE handle, uint8 uid);
+int32 __stdcall ZMC_SetComCurID( ZMC_HANDLE handle, uint8 uid );
 
 /*************************************************************
-Description:    //¿ìËÙ¿ØÖÆÆ÷½¨Á¢Á´½Ó
-Input:          //ÎŞ
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //å¿«é€Ÿæ§åˆ¶å™¨å»ºç«‹é“¾æ¥
+Input:          //æ— 
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_PeakCom(uint32 comid, uint32 uims,ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_PeakCom( uint32 comid, uint32 uims, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó
-Input:          //IPµØÖ·£¬×Ö·û´®µÄ·½Ê½ÊäÈë
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥
+Input:          //IPåœ°å€ï¼Œå­—ç¬¦ä¸²çš„æ–¹å¼è¾“å…¥
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_OpenEth(char *ipaddr, ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_OpenEth( char* ipaddr, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó
-Input:          //IPµØÖ·£¬32Î»ÊıµÄIPµØÖ·ÊäÈë, ×¢Òâ×Ö½ÚË³Ğò
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥
+Input:          //IPåœ°å€ï¼Œ32ä½æ•°çš„IPåœ°å€è¾“å…¥, æ³¨æ„å­—èŠ‚é¡ºåº
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_OpenEth2(struct in_addr straddr, ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_OpenEth2( struct in_addr straddr, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó
-Input:          //PCI¿¨±àºÅ
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥
+Input:          //PCIå¡ç¼–å·
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_OpenPci(uint32 cardnum, ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_OpenPci( uint32 cardnum, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //¶ÁÈ¡PCIµÄ¿ØÖÆ¿¨¸öÊı
+Description:    //è¯»å–PCIçš„æ§åˆ¶å¡ä¸ªæ•°
 Input:          //
 Output:         //
-Return:         //¿¨Êı
+Return:         //å¡æ•°
 *************************************************************/
 uint32 __stdcall ZMC_GetMaxPciCards();
 
 /*************************************************************
-Description:    //²éÕÒ±¾µØ¿ØÖÆÆ÷µÄ¸öÊı, Ö»Ö§³ÖÒ»¸ö.
+Description:    //æŸ¥æ‰¾æœ¬åœ°æ§åˆ¶å™¨çš„ä¸ªæ•°, åªæ”¯æŒä¸€ä¸ª.
 Input:          //
 Output:         //
-Return:         //¿¨Êı
+Return:         //å¡æ•°
 *************************************************************/
 uint32 __stdcall ZMC_GetMaxLocalRTes();
 
-
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó, ×Ô¶¯²éÕÒCOMºÅ
-Input:          //COMºÅ·¶Î§
-Output:         //¿¨Á´½Óhandle
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥, è‡ªåŠ¨æŸ¥æ‰¾COMå·
+Input:          //COMå·èŒƒå›´
+Output:         //å¡é“¾æ¥handle
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SearchAndOpenCom(uint32 uimincomidfind, uint32 uimaxcomidfind,uint* pcomid, uint32 uims, ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_SearchAndOpenCom( uint32 uimincomidfind, uint32 uimaxcomidfind, uint* pcomid, uint32 uims,
+                                      ZMC_HANDLE* phandle );
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó, ×Ô¶¯ËÑË÷ÍøÂç. ÔİÊ±²»Ö§³Ö
-Input:          //×î³¤µÈ´ıÊ±¼ä
-Output:         //¿¨Á´½Óhandle Á¬½ÓµÄIPµØÖ·
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥, è‡ªåŠ¨æœç´¢ç½‘ç»œ. æš‚æ—¶ä¸æ”¯æŒ
+Input:          //æœ€é•¿ç­‰å¾…æ—¶é—´
+Output:         //å¡é“¾æ¥handle è¿æ¥çš„IPåœ°å€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SearchAndOpenEth(char *ipaddr, uint32 uims, ZMC_HANDLE * phandle);
+int32 __stdcall ZMC_SearchAndOpenEth( char* ipaddr, uint32 uims, ZMC_HANDLE* phandle );
 
 /*************************************************************
-Description:    //Óë¿ØÖÆÆ÷½¨Á¢Á´½Ó, ×Ô¶¯ËÑË÷ÍøÂç.
-Input:          //×î³¤µÈ´ıÊ±¼ä
-Output:         //¿ØÖÆÆ÷IPµØÖ·, µØÖ·¼äÓÃ¿Õ¸ñÇø·Ö¡£
-Return:         //´íÎóÂë
+Description:    //ä¸æ§åˆ¶å™¨å»ºç«‹é“¾æ¥, è‡ªåŠ¨æœç´¢ç½‘ç»œ.
+Input:          //æœ€é•¿ç­‰å¾…æ—¶é—´
+Output:         //æ§åˆ¶å™¨IPåœ°å€, åœ°å€é—´ç”¨ç©ºæ ¼åŒºåˆ†ã€‚
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SearchEth(char *ipaddrlist,  uint32 addrbufflength, uint32 uims);
-
+int32 __stdcall ZMC_SearchEth( char* ipaddrlist, uint32 addrbufflength, uint32 uims );
 
 /*************************************************************
-Description:    //¹Ø±Õ¿ØÖÆÆ÷Á´½Ó
-Input:          //¿¨Á´½Óhandle
+Description:    //å…³é—­æ§åˆ¶å™¨é“¾æ¥
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Close(ZMC_HANDLE  handle);
+int32 __stdcall ZMC_Close( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //ÃüÁîµÄÑÓÊ±µÈ´ıÊ±¼ä
-Input:          //¿¨Á´½Óhandle ºÁÃëÊ±¼ä
+Description:    //å‘½ä»¤çš„å»¶æ—¶ç­‰å¾…æ—¶é—´
+Input:          //å¡é“¾æ¥handle æ¯«ç§’æ—¶é—´
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetTimeOut(ZMC_HANDLE  handle, uint32 timems);
+int32 __stdcall ZMC_SetTimeOut( ZMC_HANDLE handle, uint32 timems );
 
 /*************************************************************
-Description:    //ÃüÁîµÄÑÓÊ±µÈ´ıÊ±¼ä
-Input:          //¿¨Á´½Óhandle 
-Output:         //ºÁÃëÊ±¼ä
-Return:         //´íÎóÂë
+Description:    //å‘½ä»¤çš„å»¶æ—¶ç­‰å¾…æ—¶é—´
+Input:          //å¡é“¾æ¥handle
+Output:         //æ¯«ç§’æ—¶é—´
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetTimeOut(ZMC_HANDLE  handle, uint32* ptimems);
+int32 __stdcall ZMC_GetTimeOut( ZMC_HANDLE handle, uint32* ptimems );
 
 /*************************************************************
-Description:    //ÃüÁîµÄÁ¬Ğø³¬Ê±´ÎÊı, µ½ÁË×Ô¶¯¹Ø±ÕÁ¬½Ó.
-Input:          //¿¨Á´½Óhandle ´ÎÊı, 0, ²»¹Ø±Õ, 1-N, µ½ÁËcloseÁ´½Ó, È±Ê¡5´Î
+Description:    //å‘½ä»¤çš„è¿ç»­è¶…æ—¶æ¬¡æ•°, åˆ°äº†è‡ªåŠ¨å…³é—­è¿æ¥.
+Input:          //å¡é“¾æ¥handle æ¬¡æ•°, 0, ä¸å…³é—­, 1-N, åˆ°äº†closeé“¾æ¥, ç¼ºçœ5æ¬¡
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetTimeOutAutoClose(ZMC_HANDLE  handle, uint32 itimes);
+int32 __stdcall ZMC_SetTimeOutAutoClose( ZMC_HANDLE handle, uint32 itimes );
 
 /*************************************************************
-Description:    //ÃüÁîµÄÁ¬Ğø³¬Ê±´ÎÊı, µ½ÁË×Ô¶¯¹Ø±ÕÁ¬½Ó.
-Input:          //¿¨Á´½Óhandle 
-Output:         //³¬Ê±´ÎÊı
-Return:         //´íÎóÂë
+Description:    //å‘½ä»¤çš„è¿ç»­è¶…æ—¶æ¬¡æ•°, åˆ°äº†è‡ªåŠ¨å…³é—­è¿æ¥.
+Input:          //å¡é“¾æ¥handle
+Output:         //è¶…æ—¶æ¬¡æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetTimeOutAutoClose(ZMC_HANDLE  handle, uint32* pitimes);
-
+int32 __stdcall ZMC_GetTimeOutAutoClose( ZMC_HANDLE handle, uint32* pitimes );
 
 /*************************************************************
-Description:    //¶ÁÈ¡³¤Ê±¼äÃüÁîµÄ½ø¶È
-Input:          //¿¨Á´½Óhandle 
+Description:    //è¯»å–é•¿æ—¶é—´å‘½ä»¤çš„è¿›åº¦
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //½ø¶È£¬ ¸¡µã£¬ 
+Return:         //è¿›åº¦ï¼Œ æµ®ç‚¹ï¼Œ
 *************************************************************/
-float  __stdcall ZMC_GetProgress(ZMC_HANDLE  handle);
+float __stdcall ZMC_GetProgress( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //¶ÁÈ¡Á¬½ÓµÄÀàĞÍ
-Input:          //¿¨Á´½Óhandle 
+Description:    //è¯»å–è¿æ¥çš„ç±»å‹
+Input:          //å¡é“¾æ¥handle
 Output:         //
 Return:         //ZMC_CONNECTION_TYPE
 *************************************************************/
-uint8  __stdcall ZMC_GetConnectType(ZMC_HANDLE  handle);
+uint8 __stdcall ZMC_GetConnectType( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //¶ÁÈ¡Á¬½ÓµÄÃû³Æ
-Input:          //¿¨Á´½Óhandle 
+Description:    //è¯»å–è¿æ¥çš„åç§°
+Input:          //å¡é“¾æ¥handle
 Output:         //
 Return:         //string
 *************************************************************/
-const char*  __stdcall ZMC_GetConnectString(ZMC_HANDLE  handle);
+const char* __stdcall ZMC_GetConnectString( ZMC_HANDLE handle );
 
-
-//Ö÷¶¯ÉÏ±¨µÄ»Øµ÷º¯Êı¸ñÊ½
-typedef void (*PZMCAutoUpCallBack)(ZMC_HANDLE handle, int32 itypecode, int32 idatalength, uint8 *pdata); 
+// ä¸»åŠ¨ä¸ŠæŠ¥çš„å›è°ƒå‡½æ•°æ ¼å¼
+typedef void ( *PZMCAutoUpCallBack )( ZMC_HANDLE handle, int32 itypecode, int32 idatalength, uint8* pdata );
 
 /*************************************************************
-Description:    //Ö÷¶¯ÉÏ±¨»Øµ÷º¯Êı, ĞèÒª¿ØÖÆÆ÷Ö§³Ö.
-Input:          //¿¨Á´½Óhandle
+Description:    //ä¸»åŠ¨ä¸ŠæŠ¥å›è°ƒå‡½æ•°, éœ€è¦æ§åˆ¶å™¨æ”¯æŒ.
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetAutoUpCallBack(ZMC_HANDLE handle, PZMCAutoUpCallBack pcallback);
-
+int32 __stdcall ZMC_SetAutoUpCallBack( ZMC_HANDLE handle, PZMCAutoUpCallBack pcallback );
 
 #if 0
 #endif
 /***************************************************
-	ZBASICÃüÁî£¬ÎÄ¼şÏà¹Øº¯ÊıÁĞ±í
+    ZBASICå‘½ä»¤ï¼Œæ–‡ä»¶ç›¸å…³å‡½æ•°åˆ—è¡¨
 ***************************************************/
 
-
 /*************************************************************
-Description:    ////¶ÁÈ¡ÏµÍ³×´Ì¬
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬ ZBASIC_TASKSTATE
-Return:         //´íÎóÂë
+Description:    ////è¯»å–ç³»ç»ŸçŠ¶æ€
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€ ZBASIC_TASKSTATE
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetState(ZMC_HANDLE handle,uint8 *pstate);
+int32 __stdcall ZMC_GetState( ZMC_HANDLE handle, uint8* pstate );
 
 /*************************************************************
-Description:    //¶ÁÈ¡ÔİÍ£µ¼ÖÂµÄÈÎÎñºÅ
-Input:          //¿¨Á´½Óhandle
-Output:         //ÈÎÎñºÅ
-Return:         //´íÎóÂë
+Description:    //è¯»å–æš‚åœå¯¼è‡´çš„ä»»åŠ¡å·
+Input:          //å¡é“¾æ¥handle
+Output:         //ä»»åŠ¡å·
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetStopPauseTaskid(ZMC_HANDLE handle,uint8 *ptaskid);
-
+int32 __stdcall ZMC_GetStopPauseTaskid( ZMC_HANDLE handle, uint8* ptaskid );
 
 /*************************************************************
-Description:    ////¶ÁÈ¡Á´½Ó¿ØÖÆÆ÷µÄ×ÜĞéÄâÖáÊı
-Input:          //¿¨Á´½Óhandle
+Description:    ////è¯»å–é“¾æ¥æ§åˆ¶å™¨çš„æ€»è™šæ‹Ÿè½´æ•°
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //ÖáÊı£¬³ö´í0
+Return:         //è½´æ•°ï¼Œå‡ºé”™0
 *************************************************************/
-uint8 __stdcall ZMC_GetAxises(ZMC_HANDLE handle);
+uint8 __stdcall ZMC_GetAxises( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //RT ÏûÏ¢²Ù×÷.
-Input:          // isel: Ô¤Áô
-				icode: 1- Æô¶¯RT,  2- Í£Ö¹RT.
-				
+Description:    //RT æ¶ˆæ¯æ“ä½œ.
+Input:          // isel: é¢„ç•™
+                icode: 1- å¯åŠ¨RT,  2- åœæ­¢RT.
+
 Output:         //
-Return:         //´íÎó
+Return:         //é”™è¯¯
 *************************************************************/
-uint32 __stdcall ZMC_LocalRTManage(int32 isel, int32 icode);
+uint32 __stdcall ZMC_LocalRTManage( int32 isel, int32 icode );
 
 /*************************************************************
-Description:    //RT ÏûÏ¢²Ù×÷.
+Description:    //RT æ¶ˆæ¯æ“ä½œ.
 Input:          //
 Output:         //
-Return:         //0- Ã»ÓĞÔËĞĞ,  1- ÔËĞĞÖĞ,   ÆäËü:´íÎóÂë
+Return:         //0- æ²¡æœ‰è¿è¡Œ,  1- è¿è¡Œä¸­,   å…¶å®ƒ:é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_GetLocalRTState(int32 isel);
-
+uint32 __stdcall ZMC_GetLocalRTState( int32 isel );
 
 /*************************************************************
-Description:    //Í¨ÓÃµÄÃüÁîÖ´ĞĞ½Ó¿Ú,´ËÃüÁî²»¶ÁÈ¡¿ØÖÆÆ÷µÄÓ¦´ğ.  µ±¿ØÖÆÆ÷Ã»ÓĞ»º³åÊ±×Ô¶¯×èÈü
-Input:          //¿¨Á´½Óhandle     pszCommandÃüÁî´®,  uimswait ×î³¤µÈ´ımsÊ±¼ä 
+Description:    //é€šç”¨çš„å‘½ä»¤æ‰§è¡Œæ¥å£,æ­¤å‘½ä»¤ä¸è¯»å–æ§åˆ¶å™¨çš„åº”ç­”.  å½“æ§åˆ¶å™¨æ²¡æœ‰ç¼“å†²æ—¶è‡ªåŠ¨é˜»èµ›
+Input:          //å¡é“¾æ¥handle     pszCommandå‘½ä»¤ä¸²,  uimswait æœ€é•¿ç­‰å¾…msæ—¶é—´
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ExecuteNoAck(ZMC_HANDLE handle, const char* pszCommand, uint32 uimswait);
+int32 __stdcall ZMC_ExecuteNoAck( ZMC_HANDLE handle, const char* pszCommand, uint32 uimswait );
 
 /*************************************************************
-Description:    //Í¨ÓÃµÄÃüÁîÖ´ĞĞ½Ó¿Ú  µ±¿ØÖÆÆ÷Ã»ÓĞ»º³åÊ±×Ô¶¯×èÈü
-Input:          //¿¨Á´½Óhandle  pszCommandÃüÁî´®,    uimswait ×î³¤µÈ´ımsÊ±¼ä 
-Output:         //psResponse ½ÓÊÕ¿ØÖÆÆ÷µÄÖ´ĞĞ½á¹ûÊä³ö
-Return:         //´íÎóÂë
+Description:    //é€šç”¨çš„å‘½ä»¤æ‰§è¡Œæ¥å£  å½“æ§åˆ¶å™¨æ²¡æœ‰ç¼“å†²æ—¶è‡ªåŠ¨é˜»èµ›
+Input:          //å¡é“¾æ¥handle  pszCommandå‘½ä»¤ä¸²,    uimswait æœ€é•¿ç­‰å¾…msæ—¶é—´
+Output:         //psResponse æ¥æ”¶æ§åˆ¶å™¨çš„æ‰§è¡Œç»“æœè¾“å‡º
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Execute(ZMC_HANDLE handle, const char* pszCommand, uint32 uimswait, char* psResponse, uint32 uiResponseLength);
+int32 __stdcall ZMC_Execute( ZMC_HANDLE handle, const char* pszCommand, uint32 uimswait, char* psResponse,
+                             uint32 uiResponseLength );
 
 /*************************************************************
-Description:    //µÈ´ıÇ°ÃæµÄÃüÁîÖ´ĞĞ½áÊø£¬¿ØÖÆÆ÷Ö´ĞĞµÄÓ¦´ğ±»¶ªµô. µ±Ã»ÓĞ»º³åÊ±×Ô¶¯×èÈü
-Input:          //¿¨Á´½Óhandle  uimswait ×î³¤µÈ´ımsÊ±¼ä 
+Description:    //ç­‰å¾…å‰é¢çš„å‘½ä»¤æ‰§è¡Œç»“æŸï¼Œæ§åˆ¶å™¨æ‰§è¡Œçš„åº”ç­”è¢«ä¸¢æ‰. å½“æ²¡æœ‰ç¼“å†²æ—¶è‡ªåŠ¨é˜»èµ›
+Input:          //å¡é“¾æ¥handle  uimswait æœ€é•¿ç­‰å¾…msæ—¶é—´
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ExecuteWaitDown(ZMC_HANDLE handle, uint32 uimaxms);
+int32 __stdcall ZMC_ExecuteWaitDown( ZMC_HANDLE handle, uint32 uimaxms );
 
 /*************************************************************
-Description:    //¶ÁÈ¡ÔÚÏßÃüÁîµÄÓ¦´ğ£¬ ¶ÔÃ»ÓĞ½ÓÊÕÓ¦´ğµÄÃüÁîÓĞÓÃ.
-				´Ëº¯Êı²»×èÈü
-Input:          //¿¨Á´½Óhandle  uimax »º³å³¤¶È
-Output:         //pbuff ·µ»Ø¶ÁÈ¡½á¹û£¬  puiread ¶ÁÈ¡µÄ³¤¶È£¬  pbifExcuteDown ÊÇ·ñÒÑ¾­Ö´ĞĞ½áÊø
-Return:         //´íÎóÂë
+Description:    //è¯»å–åœ¨çº¿å‘½ä»¤çš„åº”ç­”ï¼Œ å¯¹æ²¡æœ‰æ¥æ”¶åº”ç­”çš„å‘½ä»¤æœ‰ç”¨.
+                æ­¤å‡½æ•°ä¸é˜»èµ›
+Input:          //å¡é“¾æ¥handle  uimax ç¼“å†²é•¿åº¦
+Output:         //pbuff è¿”å›è¯»å–ç»“æœï¼Œ  puiread è¯»å–çš„é•¿åº¦ï¼Œ  pbifExcuteDown æ˜¯å¦å·²ç»æ‰§è¡Œç»“æŸ
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ExecuteGetReceive(ZMC_HANDLE handle, char * pbuff, uint32 uimax, uint32 *puiread, uint8 *pbifExcuteDown);
-
+int32 __stdcall ZMC_ExecuteGetReceive( ZMC_HANDLE handle, char* pbuff, uint32 uimax, uint32* puiread,
+                                       uint8* pbifExcuteDown );
 
 /*************************************************************
-Description:    //¶ÁÈ¡ÔÚÏßÃüÁîµÄµ±Ç°Ê£Óà»º³å
-Input:          //¿¨Á´½Óhandle
+Description:    //è¯»å–åœ¨çº¿å‘½ä»¤çš„å½“å‰å‰©ä½™ç¼“å†²
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //Ê£Óà¿Õ¼ä ³ö´í - 0
+Return:         //å‰©ä½™ç©ºé—´ å‡ºé”™ - 0
 *************************************************************/
-uint32 __stdcall ZMC_ExecuteGetRemainBuffSpace(ZMC_HANDLE handle);
-
-
-
+uint32 __stdcall ZMC_ExecuteGetRemainBuffSpace( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //Ö±½ÓÃüÁî½Ó¿Ú£¬Ö»Ö§³ÖÊı×é±äÁ¿, ÔË¶¯º¯Êı,  ²ÎÊıµÈÖ¸Áî.
-Input:          //¿¨Á´½Óhandle
+Description:    //ç›´æ¥å‘½ä»¤æ¥å£ï¼Œåªæ”¯æŒæ•°ç»„å˜é‡, è¿åŠ¨å‡½æ•°,  å‚æ•°ç­‰æŒ‡ä»¤.
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DirectCommand(ZMC_HANDLE handle, const char* pszCommand, char* psResponse, uint32 uiResponseLength);
-
-
+int32 __stdcall ZMC_DirectCommand( ZMC_HANDLE handle, const char* pszCommand, char* psResponse,
+                                   uint32 uiResponseLength );
 
 /*************************************************************
-Description:    //´òÏÂÔØ°üZAR, 
-Input:          //¿¨Á´½Óhandle
-                pZpjfilename ÏîÄ¿ÎÄ¼şÃû ´øÂ·¾¶
-                pZarfilename ZARÎÄ¼şÃû 
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //æ‰“ä¸‹è½½åŒ…ZAR,
+Input:          //å¡é“¾æ¥handle
+                pZpjfilename é¡¹ç›®æ–‡ä»¶å å¸¦è·¯å¾„
+                pZarfilename ZARæ–‡ä»¶å
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZar(const char* pZpjfilename, const char* pZarfilename, const char *pPass, uint32 uid);
+int32 __stdcall ZMC_MakeZar( const char* pZpjfilename, const char* pZarfilename, const char* pPass, uint32 uid );
 
 /*************************************************************
-Description:    //´òÏÂÔØ°üZAR, ÊäÈë¶ş½øÖÆµÄzpjÎÄ¼ş
-Input:          //¿¨Á´½Óhandle  
-                pzpj ÎÄ¼ş»º³å
-                pBasDir bas³ÌĞòÎÄ¼şÂ·¾¶ 
-                pZarfilename ZARÎÄ¼şÃû 
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //æ‰“ä¸‹è½½åŒ…ZAR, è¾“å…¥äºŒè¿›åˆ¶çš„zpjæ–‡ä»¶
+Input:          //å¡é“¾æ¥handle
+                pzpj æ–‡ä»¶ç¼“å†²
+                pBasDir basç¨‹åºæ–‡ä»¶è·¯å¾„
+                pZarfilename ZARæ–‡ä»¶å
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZar2(void *pzpj,const char *pBasDir, const char* pZarfilename, const char *pPass, uint32 uid);
+int32 __stdcall ZMC_MakeZar2( void* pzpj, const char* pBasDir, const char* pZarfilename, const char* pPass,
+                              uint32 uid );
 
 /*************************************************************
-Description:    //ÏÂÔØ°üÎÄ¼ş
-Input:          //¿¨Á´½Óhandle 
-                pfilename  zarÎÄ¼şÃû
-                pfilenameinControl  BASICÏµÍ³Ö»ÓĞÒ»¸ö°üÎÄ¼ş£¬¿ÉÒÔ²»Ö¸¶¨.
+Description:    //ä¸‹è½½åŒ…æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle
+                pfilename  zaræ–‡ä»¶å
+                pfilenameinControl  BASICç³»ç»Ÿåªæœ‰ä¸€ä¸ªåŒ…æ–‡ä»¶ï¼Œå¯ä»¥ä¸æŒ‡å®š.
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DownZar(ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl);
+int32 __stdcall ZMC_DownZar( ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //ÏÂÔØ°üÎÄ¼ş
-Input:          //¿¨Á´½Óhandle
-                pbuffer     zarÎÄ¼şÔÚÄÚ´æÖĞµÄµØÖ·
-                buffsize    zarÎÄ¼ş³¤¶È
-                pfilenameinControl ¿ØÖÆÆ÷ÉÏÎÄ¼şµÄÃû×Ö , BASICÏµÍ³Ö»ÓĞÒ»¸ö°üÎÄ¼ş£¬¿ÉÒÔ²»Ö¸¶¨.
+Description:    //ä¸‹è½½åŒ…æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle
+                pbuffer     zaræ–‡ä»¶åœ¨å†…å­˜ä¸­çš„åœ°å€
+                buffsize    zaræ–‡ä»¶é•¿åº¦
+                pfilenameinControl æ§åˆ¶å™¨ä¸Šæ–‡ä»¶çš„åå­— , BASICç³»ç»Ÿåªæœ‰ä¸€ä¸ªåŒ…æ–‡ä»¶ï¼Œå¯ä»¥ä¸æŒ‡å®š.
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DownMemZar(ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize, const char* pfilenameinControl);
-
-
+int32 __stdcall ZMC_DownMemZar( ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize,
+                                const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //ÔËĞĞ°ü
-Input:          //¿¨Á´½Óhandle 
-                pfilenameinControl ÎÄ¼şÃû£¬ µ±ÎªNULLµÄÊ±ºòÔËĞĞÈ±Ê¡ÎÄ¼ş , BASICÏµÍ³Ö»ÓĞÒ»¸ö°üÎÄ¼ş£¬¿ÉÒÔ²»Ö¸¶¨.
+Description:    //è¿è¡ŒåŒ…
+Input:          //å¡é“¾æ¥handle
+                pfilenameinControl æ–‡ä»¶åï¼Œ å½“ä¸ºNULLçš„æ—¶å€™è¿è¡Œç¼ºçœæ–‡ä»¶ , BASICç³»ç»Ÿåªæœ‰ä¸€ä¸ªåŒ…æ–‡ä»¶ï¼Œå¯ä»¥ä¸æŒ‡å®š.
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_RunZarFile(ZMC_HANDLE handle, const char* pfilenameinControl);
+int32 __stdcall ZMC_RunZarFile( ZMC_HANDLE handle, const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //ÔİÍ£¼ÌĞøÔËĞĞ
-Input:          //¿¨Á´½Óhandle
+Description:    //æš‚åœç»§ç»­è¿è¡Œ
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Resume(ZMC_HANDLE handle);
+int32 __stdcall ZMC_Resume( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //ÏÂÔØµ½ramÖĞÔËĞĞ
-Input:          //¿¨Á´½Óhandle 
-                pfilename zarÎÄ¼şÃû, ´øÂ·¾¶
+Description:    //ä¸‹è½½åˆ°ramä¸­è¿è¡Œ
+Input:          //å¡é“¾æ¥handle
+                pfilename zaræ–‡ä»¶å, å¸¦è·¯å¾„
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DownZarToRamAndRun(ZMC_HANDLE handle, const char* pfilename);
+int32 __stdcall ZMC_DownZarToRamAndRun( ZMC_HANDLE handle, const char* pfilename );
 
 /*************************************************************
-Description:    //ÏÂÔØ°üµ½ramÖĞÔËĞĞ
-Input:          //¿¨Á´½Óhandle
-                pbuffer     zarÎÄ¼şÔÚÄÚ´æÖĞµÄµØÖ·
-                buffsize    zarÎÄ¼ş³¤¶È
-Output:         // 
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_DownMemZarToRamAndRun(ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize);
-
-/*************************************************************
-Description:    //´òÏÂÔØ°üZAR£¬ ²¢ÏÂÔØµ½RAMÔËĞĞ
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû
-                pZpjfilename ÏîÄ¿ÎÄ¼şÃû ´øÂ·¾¶
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //ä¸‹è½½åŒ…åˆ°ramä¸­è¿è¡Œ
+Input:          //å¡é“¾æ¥handle
+                pbuffer     zaræ–‡ä»¶åœ¨å†…å­˜ä¸­çš„åœ°å€
+                buffsize    zaræ–‡ä»¶é•¿åº¦
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZarAndRamRun(ZMC_HANDLE handle, const char* pZpjfilename,const  char *pPass, uint32 uid);
+int32 __stdcall ZMC_DownMemZarToRamAndRun( ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize );
 
 /*************************************************************
-Description:    //´òÏÂÔØ°üZAR£¬ ²¢ÏÂÔØµ½RAMÔËĞĞ
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû
-                pzpj ÎÄ¼ş»º³å
-                pBasDir bas³ÌĞòÎÄ¼şÂ·¾¶ 
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //æ‰“ä¸‹è½½åŒ…ZARï¼Œ å¹¶ä¸‹è½½åˆ°RAMè¿è¡Œ
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å
+                pZpjfilename é¡¹ç›®æ–‡ä»¶å å¸¦è·¯å¾„
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZarAndRamRun2(ZMC_HANDLE handle, void *pzpj,const char *pBasDir,const  char *pPass, uint32 uid);
+int32 __stdcall ZMC_MakeZarAndRamRun( ZMC_HANDLE handle, const char* pZpjfilename, const char* pPass, uint32 uid );
 
 /*************************************************************
-Description:    //´òÏÂÔØ°üZAR, ²¢ÏÂÔØµ½¿ØÖÆÆ÷ROM
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû
-                pZpjfilename ÏîÄ¿ÎÄ¼şÃû ´øÂ·¾¶
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //æ‰“ä¸‹è½½åŒ…ZARï¼Œ å¹¶ä¸‹è½½åˆ°RAMè¿è¡Œ
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å
+                pzpj æ–‡ä»¶ç¼“å†²
+                pBasDir basç¨‹åºæ–‡ä»¶è·¯å¾„
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZarAndDown(ZMC_HANDLE handle, const char* pZpjfilename,const  char *pPass, uint32 uid);
+int32 __stdcall ZMC_MakeZarAndRamRun2( ZMC_HANDLE handle, void* pzpj, const char* pBasDir, const char* pPass,
+                                       uint32 uid );
 
 /*************************************************************
-Description:    //´òÏÂÔØ°üZAR, ²¢ÏÂÔØµ½¿ØÖÆÆ÷ROM
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû
-                pzpj ÎÄ¼ş»º³å
-                pBasDir bas³ÌĞòÎÄ¼şÂ·¾¶ 
-                pPass Èí¼şÃÜÂë, °ó¶¨APP_PASS  Ã»ÓĞÃÜÂëÊ±pPass = NULL
-                uid °ó¶¨¿ØÖÆÆ÷Î¨Ò»ID£¬ 0-²»°ó¶¨
+Description:    //æ‰“ä¸‹è½½åŒ…ZAR, å¹¶ä¸‹è½½åˆ°æ§åˆ¶å™¨ROM
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å
+                pZpjfilename é¡¹ç›®æ–‡ä»¶å å¸¦è·¯å¾„
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZarAndDown2(ZMC_HANDLE handle, void *pzpj,const char *pBasDir,const  char *pPass, uint32 uid);
+int32 __stdcall ZMC_MakeZarAndDown( ZMC_HANDLE handle, const char* pZpjfilename, const char* pPass, uint32 uid );
 
 /*************************************************************
-Description:    //ÖÆ×÷µ¥ÎÄ¼şµÄ¶ş½øÖÆZPJÎÄ¼ş
-Input:          //pBasfilename basicÎÄ¼şÃû£¬´øÂ·¾¶ 
-Output:         //pzpj     ÏîÄ¿ÎÄ¼ş»º³å
-                  pBasDir  BASÎÄ¼şÂ·¾¶Êä³ö
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_MakeOneFileZpj(void *pZpjBuff,  char *pBasDir, const char* pBasfilename);
-
-/*************************************************************
-Description:    // ¸ù¾İzdevelopµÄzpjÎÄ±¾ÎÄ¼şÀ´ÖÆ×÷¶ş½øÖÆzpjÎÄ¼ş.
-Input:          // ZPJÎÄ±¾ÎÄ¼ş£¬´øÂ·¾¶
-Output:         // pzpj     ÏîÄ¿ÎÄ¼ş»º³å
-				pBasDir  BASÎÄ¼şÂ·¾¶, ÖÆ×÷ZARµÄÊ±ºòĞèÒª.
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_MakeMultiFileZpj(void *pZpjBuff, char *pBasDir,  const char* pZpjfilename);
-
-/*************************************************************
-Description:    //ZPJÎÄ¼şÖØĞÂÉú³É, ÓÃÓÚºÍÉÏ´«µÄZPJ±È½ÏÊÇ·ñĞŞ¸Ä.
-Input:          //pZpjfilename ¶ş½øÖÆzpjÎÄ¼şÃû£¬´øÂ·¾¶
+Description:    //æ‰“ä¸‹è½½åŒ…ZAR, å¹¶ä¸‹è½½åˆ°æ§åˆ¶å™¨ROM
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å
+                pzpj æ–‡ä»¶ç¼“å†²
+                pBasDir basç¨‹åºæ–‡ä»¶è·¯å¾„
+                pPass è½¯ä»¶å¯†ç , ç»‘å®šAPP_PASS  æ²¡æœ‰å¯†ç æ—¶pPass = NULL
+                uid ç»‘å®šæ§åˆ¶å™¨å”¯ä¸€IDï¼Œ 0-ä¸ç»‘å®š
 Output:         //
-                pbuffer »º³å£¬»º³å³¤¶È²»ÄÜĞ¡ÓÚÎÄ¼ş³¤¶È
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeRealZpj(const char* pZpjfilename, char* pbuffer, uint32 buffsize);
-
+int32 __stdcall ZMC_MakeZarAndDown2( ZMC_HANDLE handle, void* pzpj, const char* pBasDir, const char* pPass,
+                                     uint32 uid );
 
 /*************************************************************
-Description:    //ZPJÎÄ¼şÖØĞÂÉú³É, ÓÃÓÚºÍÉÏ´«µÄZPJ±È½ÏÊÇ·ñĞŞ¸Ä.
-                  È«²¿ÔÚbuffÀïÃæ
-Input:          //pBasDir basicÎÄ¼şµÄÂ·¾¶
-                pzpj »º³å£¬¶ş½øÖÆzpjÎÄ¼ş£¬ Í¬Ê±×÷ÎªÊä³ö
+Description:    //åˆ¶ä½œå•æ–‡ä»¶çš„äºŒè¿›åˆ¶ZPJæ–‡ä»¶
+Input:          //pBasfilename basicæ–‡ä»¶åï¼Œå¸¦è·¯å¾„
+Output:         //pzpj     é¡¹ç›®æ–‡ä»¶ç¼“å†²
+                  pBasDir  BASæ–‡ä»¶è·¯å¾„è¾“å‡º
+Return:         //é”™è¯¯ç 
+*************************************************************/
+int32 __stdcall ZMC_MakeOneFileZpj( void* pZpjBuff, char* pBasDir, const char* pBasfilename );
+
+/*************************************************************
+Description:    // æ ¹æ®zdevelopçš„zpjæ–‡æœ¬æ–‡ä»¶æ¥åˆ¶ä½œäºŒè¿›åˆ¶zpjæ–‡ä»¶.
+Input:          // ZPJæ–‡æœ¬æ–‡ä»¶ï¼Œå¸¦è·¯å¾„
+Output:         // pzpj     é¡¹ç›®æ–‡ä»¶ç¼“å†²
+                pBasDir  BASæ–‡ä»¶è·¯å¾„, åˆ¶ä½œZARçš„æ—¶å€™éœ€è¦.
+Return:         //é”™è¯¯ç 
+*************************************************************/
+int32 __stdcall ZMC_MakeMultiFileZpj( void* pZpjBuff, char* pBasDir, const char* pZpjfilename );
+
+/*************************************************************
+Description:    //ZPJæ–‡ä»¶é‡æ–°ç”Ÿæˆ, ç”¨äºå’Œä¸Šä¼ çš„ZPJæ¯”è¾ƒæ˜¯å¦ä¿®æ”¹.
+Input:          //pZpjfilename äºŒè¿›åˆ¶zpjæ–‡ä»¶åï¼Œå¸¦è·¯å¾„
 Output:         //
-Return:         //´íÎóÂë
+                pbuffer ç¼“å†²ï¼Œç¼“å†²é•¿åº¦ä¸èƒ½å°äºæ–‡ä»¶é•¿åº¦
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeRealZpjMem(const char* pBasDir, void *pzpj);
+int32 __stdcall ZMC_MakeRealZpj( const char* pZpjfilename, char* pbuffer, uint32 buffsize );
 
 /*************************************************************
-Description:    //ÖÆ×÷ZLIBÎÄ¼ş
-Input:          //pfilenameBas  basic ÎÄ¼ş
-                pfilenameZlb    zlb ÎÄ¼ş
+Description:    //ZPJæ–‡ä»¶é‡æ–°ç”Ÿæˆ, ç”¨äºå’Œä¸Šä¼ çš„ZPJæ¯”è¾ƒæ˜¯å¦ä¿®æ”¹.
+                  å…¨éƒ¨åœ¨buffé‡Œé¢
+Input:          //pBasDir basicæ–‡ä»¶çš„è·¯å¾„
+                pzpj ç¼“å†²ï¼ŒäºŒè¿›åˆ¶zpjæ–‡ä»¶ï¼Œ åŒæ—¶ä½œä¸ºè¾“å‡º
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MakeZlib(const char* pfilenameBas, const char* pfilenameZlb);
+int32 __stdcall ZMC_MakeRealZpjMem( const char* pBasDir, void* pzpj );
 
 /*************************************************************
-Description:    //»ñÈ¡ZLIBÎÄ¼şµÄÈ«¾ÖÃèÊö£¬°üÀ¨±äÁ¿£¬SUBµÈ  PLCÖ»ÄÜ»ñÈ¡LBL¶¨Òå
-Input:          //pfilenameZlb  libÎÄ¼şÃû£¬´øÂ·¾¶
-Output:         //pbuffer ·µ»ØÈ«¾ÖÃèÊö
-Return:         //´íÎóÂë
+Description:    //åˆ¶ä½œZLIBæ–‡ä»¶
+Input:          //pfilenameBas  basic æ–‡ä»¶
+                pfilenameZlb    zlb æ–‡ä»¶
+Output:         //
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetZlibGlobalDefine(const char* pfilenameZlb, char* pbuffer, uint32 buffsize);
+int32 __stdcall ZMC_MakeZlib( const char* pfilenameBas, const char* pfilenameZlb );
 
 /*************************************************************
-Description:    //ZLBÊÇBASÎÄ¼ş»¹ÊÇPLCÎÄ¼ş
+Description:    //è·å–ZLIBæ–‡ä»¶çš„å…¨å±€æè¿°ï¼ŒåŒ…æ‹¬å˜é‡ï¼ŒSUBç­‰  PLCåªèƒ½è·å–LBLå®šä¹‰
+Input:          //pfilenameZlb  libæ–‡ä»¶åï¼Œå¸¦è·¯å¾„
+Output:         //pbuffer è¿”å›å…¨å±€æè¿°
+Return:         //é”™è¯¯ç 
+*************************************************************/
+int32 __stdcall ZMC_GetZlibGlobalDefine( const char* pfilenameZlb, char* pbuffer, uint32 buffsize );
+
+/*************************************************************
+Description:    //ZLBæ˜¯BASæ–‡ä»¶è¿˜æ˜¯PLCæ–‡ä»¶
 Input:          //
 Output:         //ZAR_FILETYPE  2 bas  3- plc
 Return:         //
 *************************************************************/
-int32 __stdcall ZMC_GetZlibFileType(const char* pfilenameZlb, int *pFileType);
+int32 __stdcall ZMC_GetZlibFileType( const char* pfilenameZlb, int* pFileType );
 
 /*************************************************************
-Description:    //ÉÏ´«zpj£¬ÓÃÓÚPCºÍ¿ØÖÆÆ÷ÎÄ¼ş±È½Ï
-Input:          //¿¨Á´½Óhandle
-                pbuffer ½ÓÊÕzpjÎÄ¼şµÄ»º³å buffsize »º³å×î´ó³¤¶È                
-Output:         //puifilesize ¶ÁÈ¡µÄzpjÎÄ¼ş³¤¶È
-Return:         //´íÎóÂë
+Description:    //ä¸Šä¼ zpjï¼Œç”¨äºPCå’Œæ§åˆ¶å™¨æ–‡ä»¶æ¯”è¾ƒ
+Input:          //å¡é“¾æ¥handle
+                pbuffer æ¥æ”¶zpjæ–‡ä»¶çš„ç¼“å†² buffsize ç¼“å†²æœ€å¤§é•¿åº¦
+Output:         //puifilesize è¯»å–çš„zpjæ–‡ä»¶é•¿åº¦
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_UpCurZpjToMem(ZMC_HANDLE handle, char* pbuffer, uint32 buffsize, uint32* puifilesize);
-
+int32 __stdcall ZMC_UpCurZpjToMem( ZMC_HANDLE handle, char* pbuffer, uint32 buffsize, uint32* puifilesize );
 
 /*************************************************************
-Description:    //ÔİÍ£
-Input:          //¿¨Á´½Óhandle
+Description:    //æš‚åœ
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Pause(ZMC_HANDLE handle);
+int32 __stdcall ZMC_Pause( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //Í£Ö¹
-Input:          //¿¨Á´½Óhandle
+Description:    //åœæ­¢
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Stop(ZMC_HANDLE handle);
+int32 __stdcall ZMC_Stop( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //¿ØÖÆÆ÷ É¾³ıZARÎÄ¼ş, 230803ÒÔºóµÄ¹Ì¼ş²ÅÖ§³Ö, ²»Ö§³ÖµÄ·µ»Ø ERR_PARA_ERR, 218.
-Input:          //¿¨Á´½Óhandle
+Description:    //æ§åˆ¶å™¨ åˆ é™¤ZARæ–‡ä»¶, 230803ä»¥åçš„å›ºä»¶æ‰æ”¯æŒ, ä¸æ”¯æŒçš„è¿”å› ERR_PARA_ERR, 218.
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_RomZarDefault(ZMC_HANDLE handle);
-
+int32 __stdcall ZMC_RomZarDefault( ZMC_HANDLE handle );
 
 /*********************************************************
-    3´ÎÎÄ¼ş¹¦ÄÜÔİÊ±²»Ö§³Ö.
+    3æ¬¡æ–‡ä»¶åŠŸèƒ½æš‚æ—¶ä¸æ”¯æŒ.
 **********************************************************/
 
 /*************************************************************
-Description:    //¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ  
-Input:          //¿¨Á´½Óhandle ¿ØÖÆÆ÷ÉÏÎÄ¼şÃû£¬²»´øÀ©Õ¹
+Description:    //æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+Input:          //å¡é“¾æ¥handle æ§åˆ¶å™¨ä¸Šæ–‡ä»¶åï¼Œä¸å¸¦æ‰©å±•
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Check3File(ZMC_HANDLE handle, const char* pfilenameinControl, uint8 *pbIfExist, uint32 *pFileSize);
+int32 __stdcall ZMC_Check3File( ZMC_HANDLE handle, const char* pfilenameinControl, uint8* pbIfExist,
+                                uint32* pFileSize );
 
 /*************************************************************
-Description:    //²éÕÒ¿ØÖÆÆ÷ÉÏµÄÎÄ¼ş£¬ ÎÄ¼şÃûÎª¿Õ±íÊ¾ÎÄ¼ş²»²»´æÔÚ
-Input:          //¿¨Á´½Óhandle ¿ØÖÆÆ÷ÉÏÎÄ¼şÃû£¬²»´øÀ©Õ¹
-Output:         // ÊÇ·ñ´æÔÚ ÎÄ¼ş´óĞ¡
-Return:         //´íÎóÂë
+Description:    //æŸ¥æ‰¾æ§åˆ¶å™¨ä¸Šçš„æ–‡ä»¶ï¼Œ æ–‡ä»¶åä¸ºç©ºè¡¨ç¤ºæ–‡ä»¶ä¸ä¸å­˜åœ¨
+Input:          //å¡é“¾æ¥handle æ§åˆ¶å™¨ä¸Šæ–‡ä»¶åï¼Œä¸å¸¦æ‰©å±•
+Output:         // æ˜¯å¦å­˜åœ¨ æ–‡ä»¶å¤§å°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_FindFirst3File(ZMC_HANDLE handle, char* pfilenameinControl, uint32 *pFileSize);
+int32 __stdcall ZMC_FindFirst3File( ZMC_HANDLE handle, char* pfilenameinControl, uint32* pFileSize );
 
 /*************************************************************
-Description:    //²éÕÒ¿ØÖÆÆ÷ÉÏµÄÎÄ¼ş£¬ ÎÄ¼şÃûÎª¿Õ±íÊ¾ÎÄ¼ş²»²»´æÔÚ
-Input:          //¿¨Á´½Óhandle ¿ØÖÆÆ÷ÉÏÎÄ¼şÃû£¬²»´øÀ©Õ¹
-Output:         // ÊÇ·ñ´æÔÚ ÎÄ¼ş´óĞ¡
-Return:         //´íÎóÂë
+Description:    //æŸ¥æ‰¾æ§åˆ¶å™¨ä¸Šçš„æ–‡ä»¶ï¼Œ æ–‡ä»¶åä¸ºç©ºè¡¨ç¤ºæ–‡ä»¶ä¸ä¸å­˜åœ¨
+Input:          //å¡é“¾æ¥handle æ§åˆ¶å™¨ä¸Šæ–‡ä»¶åï¼Œä¸å¸¦æ‰©å±•
+Output:         // æ˜¯å¦å­˜åœ¨ æ–‡ä»¶å¤§å°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_FindNext3File(ZMC_HANDLE handle, char* pfilenameinControl, uint32 *pFileSize);
+int32 __stdcall ZMC_FindNext3File( ZMC_HANDLE handle, char* pfilenameinControl, uint32* pFileSize );
 
 /*************************************************************
-Description:    //²éÕÒ¿ØÖÆÆ÷ÉÏµÄµ±Ç°ÎÄ¼ş
-Input:          //¿¨Á´½Óhandle ¿ØÖÆÆ÷ÉÏÎÄ¼şÃû£¬²»´øÀ©Õ¹
-Output:         // ÊÇ·ñ´æÔÚ ÎÄ¼ş´óĞ¡(ÔİÊ±²»Ö§³Ö)
-Return:         //´íÎóÂë
+Description:    //æŸ¥æ‰¾æ§åˆ¶å™¨ä¸Šçš„å½“å‰æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle æ§åˆ¶å™¨ä¸Šæ–‡ä»¶åï¼Œä¸å¸¦æ‰©å±•
+Output:         // æ˜¯å¦å­˜åœ¨ æ–‡ä»¶å¤§å°(æš‚æ—¶ä¸æ”¯æŒ)
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetCur3File(ZMC_HANDLE handle, char* pfilenameinControl, uint32 *pFileSize);
+int32 __stdcall ZMC_GetCur3File( ZMC_HANDLE handle, char* pfilenameinControl, uint32* pFileSize );
 
 /*************************************************************
-Description:    //É¾³ı¿ØÖÆÆ÷ÉÏµÄÎÄ¼ş
-Input:          //¿¨Á´½Óhandle ¿ØÖÆÆ÷ÉÏÎÄ¼şÃû£¬²»´øÀ©Õ¹
+Description:    //åˆ é™¤æ§åˆ¶å™¨ä¸Šçš„æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle æ§åˆ¶å™¨ä¸Šæ–‡ä»¶åï¼Œä¸å¸¦æ‰©å±•
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Delete3File(ZMC_HANDLE handle, const char* pfilenameinControl);
-
+int32 __stdcall ZMC_Delete3File( ZMC_HANDLE handle, const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //É¾³ı¿ØÖÆÆ÷ÉÏµÄÎÄ¼ş
-Input:          //¿¨Á´½Óhandle
+Description:    //åˆ é™¤æ§åˆ¶å™¨ä¸Šçš„æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_RemoveAll3Files(ZMC_HANDLE handle);
+int32 __stdcall ZMC_RemoveAll3Files( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //ÏÂÔØ3´ÎÎÄ¼ş
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû, ±ØĞëÊÇ3´ÎÎÄ¼ş
+Description:    //ä¸‹è½½3æ¬¡æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å, å¿…é¡»æ˜¯3æ¬¡æ–‡ä»¶
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Down3File(ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl);
+int32 __stdcall ZMC_Down3File( ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //ÏÂÔØ3´ÎÎÄ¼ş, ÎÄ±¾ÎÄ¼şµÄ³¤¶ÈÓÃstrlen ¼´¿É
-Input:          //¿¨Á´½Óhandle buff 
+Description:    //ä¸‹è½½3æ¬¡æ–‡ä»¶, æ–‡æœ¬æ–‡ä»¶çš„é•¿åº¦ç”¨strlen å³å¯
+Input:          //å¡é“¾æ¥handle buff
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DownMem3File(ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize, const char* pfilenameinControl);
+int32 __stdcall ZMC_DownMem3File( ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize,
+                                  const char* pfilenameinControl );
 
 /*************************************************************
-Description:    //ÏÂÔØ3´ÎÎÄ¼şµ½RAM
-Input:          //¿¨Á´½Óhandle ÎÄ¼şÃû, ±ØĞëÊÇ3´ÎÎÄ¼ş
-				pfilenameinControl  Ö§³ÖNCÎÄ¼şÃû, ±ØĞë´øÃû³Æ, ·ñÔòÎŞ·¨Çø·Öbas»¹ÊÇNCÎÄ¼ş
-				ifile3num	Ñ¡ÔñÄÇ¸ö3´ÎÎÄ¼ş»º³å
+Description:    //ä¸‹è½½3æ¬¡æ–‡ä»¶åˆ°RAM
+Input:          //å¡é“¾æ¥handle æ–‡ä»¶å, å¿…é¡»æ˜¯3æ¬¡æ–‡ä»¶
+                pfilenameinControl  æ”¯æŒNCæ–‡ä»¶å, å¿…é¡»å¸¦åç§°, å¦åˆ™æ— æ³•åŒºåˆ†basè¿˜æ˜¯NCæ–‡ä»¶
+                ifile3num	é€‰æ‹©é‚£ä¸ª3æ¬¡æ–‡ä»¶ç¼“å†²
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Down3FileRam(ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl, int32 ifile3num);
+int32 __stdcall ZMC_Down3FileRam( ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl,
+                                  int32 ifile3num );
 
 /*************************************************************
-Description:    //ÏÂÔØ3´ÎÎÄ¼şµ½RAM
-Input:          //¿¨Á´½Óhandle buff 
+Description:    //ä¸‹è½½3æ¬¡æ–‡ä»¶åˆ°RAM
+Input:          //å¡é“¾æ¥handle buff
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_DownMem3FileRam(ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize, const char* pfilenameinControl, int32 ifile3num);
-
+int32 __stdcall ZMC_DownMem3FileRam( ZMC_HANDLE handle, const char* pbuffer, uint32 buffsize,
+                                     const char* pfilenameinControl, int32 ifile3num );
 
 /*************************************************************
-Description:    // ¶¯Ì¬ÏÂÔØ3´ÎÎÄ¼ş, ¶ÁÈ¡¿ÉĞ´µÄ¿Õ¼ä.
-Input:          //¿¨Á´½Óhandle
-Output:         //×Ö½ÚÊı
-Return:         //´íÎóÂë
+Description:    // åŠ¨æ€ä¸‹è½½3æ¬¡æ–‡ä»¶, è¯»å–å¯å†™çš„ç©ºé—´.
+Input:          //å¡é“¾æ¥handle
+Output:         //å­—èŠ‚æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_3FileRamGetRemainSpace(ZMC_HANDLE handle, int32 ifile3num, uint32 *premainbyte);
+int32 __stdcall ZMC_3FileRamGetRemainSpace( ZMC_HANDLE handle, int32 ifile3num, uint32* premainbyte );
 
 /*************************************************************
-Description:    // ¶¯Ì¬ÏÂÔØ3´ÎÎÄ¼ş, Æô¶¯ÏÂÔØ, 
-				pfilenameinControl	ÉèÖÃ3´ÎÎÄ¼şÃû.
-				3´ÎÎÄ¼ş²»»á×Ô¶¯ÔËĞĞ, Ğèµ÷ÓÃZMC_Run3FileRamÆô¶¯.
-Input:          //¿¨Á´½Óhandle,  itotalsize: ÔİÊ±ÎŞÓÃ, ²»Ğ£Ñé.
-Output:         //Ê£Óà¿Õ¼ä×Ö½ÚÊı
-Return:         //´íÎóÂë
+Description:    // åŠ¨æ€ä¸‹è½½3æ¬¡æ–‡ä»¶, å¯åŠ¨ä¸‹è½½,
+                pfilenameinControl	è®¾ç½®3æ¬¡æ–‡ä»¶å.
+                3æ¬¡æ–‡ä»¶ä¸ä¼šè‡ªåŠ¨è¿è¡Œ, éœ€è°ƒç”¨ZMC_Run3FileRamå¯åŠ¨.
+Input:          //å¡é“¾æ¥handle,  itotalsize: æš‚æ—¶æ— ç”¨, ä¸æ ¡éªŒ.
+Output:         //å‰©ä½™ç©ºé—´å­—èŠ‚æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_3FileRamDownBegin(ZMC_HANDLE handle, int32 ifile3num, uint32 itotalsize, const char* pfilenameinControl, uint32 *premainbyte);
+int32 __stdcall ZMC_3FileRamDownBegin( ZMC_HANDLE handle, int32 ifile3num, uint32 itotalsize,
+                                       const char* pfilenameinControl, uint32* premainbyte );
 /*************************************************************
-Description:    // ¶¯Ì¬ÏÂÔØ3´ÎÎÄ¼ş, Ò»´ÎÏÂÔØµÄÄÚÈİ±ØĞëÊÇÍêÕûµÄµ¥ĞĞ»ò¶àĞĞ,Ã»ÓĞÏÂÔØÍê³ÉÊ±, ºóÃæÓÃ\n½áÎ², È«²¿ÏÂÔØÍê³ÉÊ±, ¼Ó\0½áÎ²
-				\0»áµ¼ÖÂÈÎÎñ½áÊø, ĞèÒªÔÙÆô¶¯¿ÉÒÔÔÙ´Îµ÷ÓÃZMC_Run3FileRam
-Input:          //¿¨Á´½Óhandle
-Output:         //Ê£Óà¿Ø¼ş×Ö½ÚÊı
-Return:         //´íÎóÂë
+Description:    // åŠ¨æ€ä¸‹è½½3æ¬¡æ–‡ä»¶, ä¸€æ¬¡ä¸‹è½½çš„å†…å®¹å¿…é¡»æ˜¯å®Œæ•´çš„å•è¡Œæˆ–å¤šè¡Œ,æ²¡æœ‰ä¸‹è½½å®Œæˆæ—¶, åé¢ç”¨\nç»“å°¾, å…¨éƒ¨ä¸‹è½½å®Œæˆæ—¶,
+åŠ \0ç»“å°¾
+                \0ä¼šå¯¼è‡´ä»»åŠ¡ç»“æŸ, éœ€è¦å†å¯åŠ¨å¯ä»¥å†æ¬¡è°ƒç”¨ZMC_Run3FileRam
+Input:          //å¡é“¾æ¥handle
+Output:         //å‰©ä½™æ§ä»¶å­—èŠ‚æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_3FileRamDownPart(ZMC_HANDLE handle, int32 ifile3num, const char* pbuffer, uint32 buffsize, uint32 *premainbyte);
-
-/*************************************************************
-Description:    // ¶¯Ì¬ÏÂÔØ3´ÎÎÄ¼ş, ÏÂÔØ½áÊø, ×Ô¶¯¼Ó\0, ²¢ÇÒµ÷ÓÃºóÔÙ´Îµ÷ÓÃ ZMC_3FileRamDownPart »á·µ»Ø´íÎó.
-Input:          //¿¨Á´½Óhandle
-Output:         //Ê£Óà¿Õ¼ä×Ö½ÚÊı
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_3FileRamDownEnd(ZMC_HANDLE handle, int32 ifile3num);
+int32 __stdcall ZMC_3FileRamDownPart( ZMC_HANDLE handle, int32 ifile3num, const char* pbuffer, uint32 buffsize,
+                                      uint32* premainbyte );
 
 /*************************************************************
-Description:    //Æô¶¯3´ÎÎÄ¼ş
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    // åŠ¨æ€ä¸‹è½½3æ¬¡æ–‡ä»¶, ä¸‹è½½ç»“æŸ, è‡ªåŠ¨åŠ \0, å¹¶ä¸”è°ƒç”¨åå†æ¬¡è°ƒç”¨ ZMC_3FileRamDownPart ä¼šè¿”å›é”™è¯¯.
+Input:          //å¡é“¾æ¥handle
+Output:         //å‰©ä½™ç©ºé—´å­—èŠ‚æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Run3FileRam(ZMC_HANDLE handle, int32 ifile3num, int32 itasknum);
+int32 __stdcall ZMC_3FileRamDownEnd( ZMC_HANDLE handle, int32 ifile3num );
 
 /*************************************************************
-Description:    // ¶ÁÈ¡¶ş½øÖÆ×ª»»Ç°×º, 3´ÎÎÄ¼şÏÂÔØÊ±,¿ÉÒÔ²¿·Ö×ª»»³É¶ş½øÖÆÀ´¼Ó¿ìÖ´ĞĞËÙ¶È.
-                    ²ÎÊı×ª»»Ê±, Ê¹ÓÃ INTEGER, SINGLE, DOUBLE À´»ñÈ¡×ª»»Ç°×º.
-                   3ÏµÁĞ¿ØÖÆÆ÷²»Ö§³Ö DOUBLE, Ê¹ÓÃSINGLE.
-                   ÏÈ¶ÁÈ¡¸÷ÖÖÇ°×º±£´æ.
-                   ×Ö·û´®×ª»»Ê±, Ö±½ÓÌæ»», Ìæ»»¹æÔò:
-                   Êı¾İÌæ»»Îª Êı¾İÇ°×º,½ô½Ó×Å¶ş½øÖÆ¸ñÊ½Êı¾İ
-                   ÃüÁîÌæ»»Îª ÃüÁîÇ°×º.
-                   ·ûºÅ²»ÓÃ×ª»»
-                   Ã¿ĞĞºóÃæ±ØĞë´ø»»ĞĞ·û. 
-                   
-Input:          // ¿¨Á´½Óhandle
-                    sCommand ĞèÒª×ª»»µÄÄÚÈİ, 
-
-Output:         // sBuff ×ª»»Ç°×ºÊä³ö, ×î³¤16¸ö×Ö½ÚÒÔÄÚ.
-				   pBuffBytes Ç°×ºµÄ×Ö½ÚÊı
-					
-Return:         //´íÎóÂë, ¿ØÖÆÆ÷²»Ö§³ÖÊ±·µ»Ø´íÎó.
+Description:    //å¯åŠ¨3æ¬¡æ–‡ä»¶
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ReadCmdBinPrefix(ZMC_HANDLE handle, const char* sCommand, char *sBuff, uint32 *pBuffBytes);
+int32 __stdcall ZMC_Run3FileRam( ZMC_HANDLE handle, int32 ifile3num, int32 itasknum );
 
 /*************************************************************
-Description:    // ¶¯Ì¬ÏÂÔØ3´ÎÎÄ¼ş, Ò»´ÎÏÂÔØµÄÄÚÈİ±ØĞëÊÇÍêÕûµÄµ¥ĞĞ»ò¶àĞĞ.
-				±ØĞë±£Ö¤×Ö½ÚÆ«ÒÆÕıÈ·, Ã¿ĞĞ±ØĞëÒ»\n »»ĞĞ·û½áÊø.
-Input:          //¿¨Á´½Óhandle
-                    ilines  ÏÂÔØµÄ×ÜĞĞÊı
-                    plinesoffset Ã¿ĞĞµÄ×Ö½ÚÆ«ÒÆ. ĞèÒªĞĞÊı+1¸öÄÚÈİ, Ò»°ãµÚÒ»ĞĞµÄoffset =0, ×îºóÒ»ĞĞ+1µÄoffset = ×Ü³¤¶È.
-                    pbuffer  ¶ş½øÖÆ»º³å.
-                    
-Output:         //premainbyte Ê£Óà¿Õ¼ä×Ö½ÚÊı
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_3FileRamDownPart_Bin(ZMC_HANDLE handle, int32 ifile3num, int32 ilines, int32 *plinesoffset, const char* pbuffer, uint32 *premainbyte);
+Description:    // è¯»å–äºŒè¿›åˆ¶è½¬æ¢å‰ç¼€, 3æ¬¡æ–‡ä»¶ä¸‹è½½æ—¶,å¯ä»¥éƒ¨åˆ†è½¬æ¢æˆäºŒè¿›åˆ¶æ¥åŠ å¿«æ‰§è¡Œé€Ÿåº¦.
+                    å‚æ•°è½¬æ¢æ—¶, ä½¿ç”¨ INTEGER, SINGLE, DOUBLE æ¥è·å–è½¬æ¢å‰ç¼€.
+                   3ç³»åˆ—æ§åˆ¶å™¨ä¸æ”¯æŒ DOUBLE, ä½¿ç”¨SINGLE.
+                   å…ˆè¯»å–å„ç§å‰ç¼€ä¿å­˜.
+                   å­—ç¬¦ä¸²è½¬æ¢æ—¶, ç›´æ¥æ›¿æ¢, æ›¿æ¢è§„åˆ™:
+                   æ•°æ®æ›¿æ¢ä¸º æ•°æ®å‰ç¼€,ç´§æ¥ç€äºŒè¿›åˆ¶æ ¼å¼æ•°æ®
+                   å‘½ä»¤æ›¿æ¢ä¸º å‘½ä»¤å‰ç¼€.
+                   ç¬¦å·ä¸ç”¨è½¬æ¢
+                   æ¯è¡Œåé¢å¿…é¡»å¸¦æ¢è¡Œç¬¦.
 
+Input:          // å¡é“¾æ¥handle
+                    sCommand éœ€è¦è½¬æ¢çš„å†…å®¹,
+
+Output:         // sBuff è½¬æ¢å‰ç¼€è¾“å‡º, æœ€é•¿16ä¸ªå­—èŠ‚ä»¥å†….
+                   pBuffBytes å‰ç¼€çš„å­—èŠ‚æ•°
+
+Return:         //é”™è¯¯ç , æ§åˆ¶å™¨ä¸æ”¯æŒæ—¶è¿”å›é”™è¯¯.
+*************************************************************/
+int32 __stdcall ZMC_ReadCmdBinPrefix( ZMC_HANDLE handle, const char* sCommand, char* sBuff, uint32* pBuffBytes );
 
 /*************************************************************
-Description:    //ÉÏ´«3´Î
-Input:          //¿¨Á´½Óhandle ÄÚ´æbuff
+Description:    // åŠ¨æ€ä¸‹è½½3æ¬¡æ–‡ä»¶, ä¸€æ¬¡ä¸‹è½½çš„å†…å®¹å¿…é¡»æ˜¯å®Œæ•´çš„å•è¡Œæˆ–å¤šè¡Œ.
+                å¿…é¡»ä¿è¯å­—èŠ‚åç§»æ­£ç¡®, æ¯è¡Œå¿…é¡»ä¸€\n æ¢è¡Œç¬¦ç»“æŸ.
+Input:          //å¡é“¾æ¥handle
+                    ilines  ä¸‹è½½çš„æ€»è¡Œæ•°
+                    plinesoffset æ¯è¡Œçš„å­—èŠ‚åç§». éœ€è¦è¡Œæ•°+1ä¸ªå†…å®¹, ä¸€èˆ¬ç¬¬ä¸€è¡Œçš„offset =0, æœ€åä¸€è¡Œ+1çš„offset = æ€»é•¿åº¦.
+                    pbuffer  äºŒè¿›åˆ¶ç¼“å†².
+
+Output:         //premainbyte å‰©ä½™ç©ºé—´å­—èŠ‚æ•°
+Return:         //é”™è¯¯ç 
+*************************************************************/
+int32 __stdcall ZMC_3FileRamDownPart_Bin( ZMC_HANDLE handle, int32 ifile3num, int32 ilines, int32* plinesoffset,
+                                          const char* pbuffer, uint32* premainbyte );
+
+/*************************************************************
+Description:    //ä¸Šä¼ 3æ¬¡
+Input:          //å¡é“¾æ¥handle å†…å­˜buff
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Up3File(ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl);
+int32 __stdcall ZMC_Up3File( ZMC_HANDLE handle, const char* pfilename, const char* pfilenameinControl );
 /*************************************************************
-Description:    //ÉÏ´«3´Î
-Input:          //¿¨Á´½Óhandle ÄÚ´æbuff ·µ»ØÊµ¼ÊµÄÎÄ¼ş³¤¶È
+Description:    //ä¸Šä¼ 3æ¬¡
+Input:          //å¡é“¾æ¥handle å†…å­˜buff è¿”å›å®é™…çš„æ–‡ä»¶é•¿åº¦
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_Up3FileToMem(ZMC_HANDLE handle, char* pbuffer, uint32 buffsize, const char* pfilenameinControl, uint32* puifilesize);
+int32 __stdcall ZMC_Up3FileToMem( ZMC_HANDLE handle, char* pbuffer, uint32 buffsize, const char* pfilenameinControl,
+                                  uint32* puifilesize );
 
 /*************************************************************
-Description:    //Ğ´ÓÃ»§flash¿é, floatÊı¾İ
-Input:          //¿¨Á´½Óhandle
-					uiflashid 	flash¿éºÅ
-					uinumes		±äÁ¿¸öÊı
+Description:    //å†™ç”¨æˆ·flashå—, floatæ•°æ®
+Input:          //å¡é“¾æ¥handle
+                    uiflashid 	flashå—å·
+                    uinumes		å˜é‡ä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_FlashWritef(ZMC_HANDLE handle, uint16 uiflashid, uint32 uinumes, float *pfvlue);
+int32 __stdcall ZMC_FlashWritef( ZMC_HANDLE handle, uint16 uiflashid, uint32 uinumes, float* pfvlue );
 
 /*************************************************************
-Description:    //¶ÁÈ¡ÓÃ»§flash¿é, floatÊı¾İ
-Input:          //¿¨Á´½Óhandle
-					uiflashid 	flash¿éºÅ
-					uibuffnum	»º³å±äÁ¿¸öÊı
+Description:    //è¯»å–ç”¨æˆ·flashå—, floatæ•°æ®
+Input:          //å¡é“¾æ¥handle
+                    uiflashid 	flashå—å·
+                    uibuffnum	ç¼“å†²å˜é‡ä¸ªæ•°
 Output:         //
-					puinumesread ¶ÁÈ¡µ½µÄ±äÁ¿¸öÊı
-Return:         //´íÎóÂë
+                    puinumesread è¯»å–åˆ°çš„å˜é‡ä¸ªæ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_FlashReadf(ZMC_HANDLE handle, uint16 uiflashid, uint32 uibuffnum, float *pfvlue, uint32* puinumesread);
-
-
+int32 __stdcall ZMC_FlashReadf( ZMC_HANDLE handle, uint16 uiflashid, uint32 uibuffnum, float* pfvlue,
+                                uint32* puinumesread );
 
 /*************************************************************
-Description:    //¶ÁÈ¡µ±Ç°¿ØÖÆÆ÷µÄIPµØÖ·, 
-Input:          //¿¨Á´½Óhandle
-Output:         //sIpAddr  ·µ»ØIPµØÖ·£¬  ×¢Òâ:µ±ÉèÖÃdhcpÒÔºó£¬ÉèÖÃµÄIPÓëÊµ¼ÊµÄ²»Ò»ÖÂ¡£
-Return:         //´íÎóÂë
+Description:    //è¯»å–å½“å‰æ§åˆ¶å™¨çš„IPåœ°å€,
+Input:          //å¡é“¾æ¥handle
+Output:         //sIpAddr  è¿”å›IPåœ°å€ï¼Œ  æ³¨æ„:å½“è®¾ç½®dhcpä»¥åï¼Œè®¾ç½®çš„IPä¸å®é™…çš„ä¸ä¸€è‡´ã€‚
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetCurIpAddr(ZMC_HANDLE handle, char* sIpAddr);
-
+int32 __stdcall ZMC_GetCurIpAddr( ZMC_HANDLE handle, char* sIpAddr );
 
 /*************************************************************
-Description:    //¶ÁÈ¡×Ö·û´®ÔÚµ±Ç°¿ØÖÆÆ÷ÉÏµÄÀàĞÍ
-Input:          //¿¨Á´½Óhandle
-Output:         //type  ÀàĞÍ£¬string_types
-                  TYPE2 µ±ÀàĞÍÎªÊı×éÊ±£¬´ú±íÊı×éµÄ³¤¶È 
-                  pvalue ±äÁ¿Ö±½Ó·µ»ØÖµ
-Return:         //´íÎóÂë
+Description:    //è¯»å–å­—ç¬¦ä¸²åœ¨å½“å‰æ§åˆ¶å™¨ä¸Šçš„ç±»å‹
+Input:          //å¡é“¾æ¥handle
+Output:         //type  ç±»å‹ï¼Œstring_types
+                  TYPE2 å½“ç±»å‹ä¸ºæ•°ç»„æ—¶ï¼Œä»£è¡¨æ•°ç»„çš„é•¿åº¦
+                  pvalue å˜é‡ç›´æ¥è¿”å›å€¼
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetStringType(ZMC_HANDLE handle, const char *sname, uint16 filenum, uint16* type, uint32* type2, double *pvalue);
+int32 __stdcall ZMC_GetStringType( ZMC_HANDLE handle, const char* sname, uint16 filenum, uint16* type, uint32* type2,
+                                   double* pvalue );
 
-enum string_types 
-{
-    STRING_USERSUB = 1, 
-    STRING_VARIABLE = 2, 
-    STRING_ARRAY = 3, 
-    STRING_PARA = 4, 
+enum string_types {
+    STRING_USERSUB  = 1,
+    STRING_VARIABLE = 2,
+    STRING_ARRAY    = 3,
+    STRING_PARA     = 4,
 
-    STRING_CMD = 5,
-    STRING_KEYWORD = 6, // AS µÈ¹Ø¼ü´Ê
+    STRING_CMD     = 5,
+    STRING_KEYWORD = 6,  // AS ç­‰å…³é”®è¯
 
-    STRING_LOCAL = 7, //¾Ö²¿¶¨Òå
+    STRING_LOCAL = 7,  // å±€éƒ¨å®šä¹‰
 
-    STRING_MODULE = 8, //¾Ö²¿¶¨Òå
+    STRING_MODULE = 8,  // å±€éƒ¨å®šä¹‰
 
-    STRING_UNKOWN = 10, 
+    STRING_UNKOWN = 10,
 };
 
+/*************************************************************
+Description:    //IOæ¥å£ è½´ä½¿èƒ½, éƒ¨åˆ†æ§åˆ¶å™¨ä¸å¸¦è½´ä½¿èƒ½çš„è¾“å‡º
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
+*************************************************************/
+int32 __stdcall ZMC_SetAxisEnable( ZMC_HANDLE handle, uint8 iaxis, uint8 bifenable );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ÖáÊ¹ÄÜ, ²¿·Ö¿ØÖÆÆ÷²»´øÖáÊ¹ÄÜµÄÊä³ö
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è®¾ç½®è¾“å‡º
+Input:          //å¡é“¾æ¥handle 1- IOå¼€
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetAxisEnable(ZMC_HANDLE handle, uint8 iaxis, uint8 bifenable);
+int32 __stdcall ZMC_SetOutput( ZMC_HANDLE handle, uint16 inum, uint8 iostate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ÉèÖÃÊä³ö
-Input:          //¿¨Á´½Óhandle 1- IO¿ª
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–è¾“å…¥
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetOutput(ZMC_HANDLE handle, uint16 inum, uint8 iostate);
-
+int32 __stdcall ZMC_GetIn( ZMC_HANDLE handle, uint16 inum, uint8* pistate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡ÊäÈë
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–è¾“å‡º
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetIn(ZMC_HANDLE handle, uint16 inum, uint8* pistate);
+int32 __stdcall ZMC_GetOutput( ZMC_HANDLE handle, uint16 inum, uint8* pistate );
 
-
-
-/*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡Êä³ö
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
-*************************************************************/
-int32 __stdcall ZMC_GetOutput(ZMC_HANDLE handle, uint16 inum, uint8* pistate);
-
-
-typedef struct
-{
-    uint8 m_HomeState; //
+typedef struct {
+    uint8 m_HomeState;  //
     uint8 m_AlarmState;
     uint8 m_SDState;
     uint8 m_INPState;
@@ -984,698 +951,665 @@ typedef struct
     uint8 m_ElPlusState;
     uint8 m_HandWheelAState;
     uint8 m_HandWheelBState;
-    uint8 m_EncodeAState; //
-    uint8 m_EncodeBState; //
-    uint8 m_EMGState; //Ã¿¸öÖá¶¼Ò»Ñù
-    uint8 m_ClearState; //
+    uint8 m_EncodeAState;  //
+    uint8 m_EncodeBState;  //
+    uint8 m_EMGState;      // æ¯ä¸ªè½´éƒ½ä¸€æ ·
+    uint8 m_ClearState;    //
     uint8 m_EnableOut;
 
-    //Ôö¼ÓÈíÏŞÎ»ĞÅºÅ
-    uint8 m_SoftElDecState; //0- ÓĞĞ§
+    // å¢åŠ è½¯é™ä½ä¿¡å·
+    uint8 m_SoftElDecState;  // 0- æœ‰æ•ˆ
     uint8 m_SoftElPlusState;
-    uint8 m_LatchAState; //Ëø´æĞÅºÅ
-    uint8 m_LatchBState; //Ëø´æĞÅºÅ
-}struct_AxisStates;
+    uint8 m_LatchAState;  // é”å­˜ä¿¡å·
+    uint8 m_LatchBState;  // é”å­˜ä¿¡å·
+} struct_AxisStates;
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡Öá×´Ì¬
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬ struct_AxisStates
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–è½´çŠ¶æ€
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€ struct_AxisStates
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetAxisStates(ZMC_HANDLE handle, uint8 iaxis, struct_AxisStates* pstrstates);
-
+int32 __stdcall ZMC_GetAxisStates( ZMC_HANDLE handle, uint8 iaxis, struct_AxisStates* pstrstates );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡AD
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–AD
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetAIn(ZMC_HANDLE handle, uint16 inum, float* pfstate);
-
+int32 __stdcall ZMC_GetAIn( ZMC_HANDLE handle, uint16 inum, float* pfstate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡DA
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–DA
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetDaOut(ZMC_HANDLE handle, uint16 inum, float* pfstate);
+int32 __stdcall ZMC_GetDaOut( ZMC_HANDLE handle, uint16 inum, float* pfstate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ÉèÖÃDA
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è®¾ç½®DA
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetDaOut(ZMC_HANDLE handle, uint16 inum, float fstate);
+int32 __stdcall ZMC_SetDaOut( ZMC_HANDLE handle, uint16 inum, float fstate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ÉèÖÃÊä³ö
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è®¾ç½®è¾“å‡º
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_SetOutAll(ZMC_HANDLE handle, uint16 inumfirst,uint16 inumend, uint32 istate);
+int32 __stdcall ZMC_SetOutAll( ZMC_HANDLE handle, uint16 inumfirst, uint16 inumend, uint32 istate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡ÊäÈë¿Ú
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–è¾“å…¥å£
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetInAll(ZMC_HANDLE handle, uint16 inumfirst,uint16 inumend, uint32* pistate);
-
+int32 __stdcall ZMC_GetInAll( ZMC_HANDLE handle, uint16 inumfirst, uint16 inumend, uint32* pistate );
 
 /*************************************************************
-Description:    //IO½Ó¿Ú ¶ÁÈ¡Êä³ö¿Ú
-Input:          //¿¨Á´½Óhandle
-Output:         //×´Ì¬
-Return:         //´íÎóÂë
+Description:    //IOæ¥å£ è¯»å–è¾“å‡ºå£
+Input:          //å¡é“¾æ¥handle
+Output:         //çŠ¶æ€
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetOutAll(ZMC_HANDLE handle, uint16 inumfirst,uint16 inumend, uint32* pistate);
-
-
-
-
-
+int32 __stdcall ZMC_GetOutAll( ZMC_HANDLE handle, uint16 inumfirst, uint16 inumend, uint32* pistate );
 
 /*************************************************************
-Description:    //modbus¼Ä´æÆ÷²Ù×÷ ¶ÔÓ¦ modbus_bit
-Input:          //¿¨Á´½Óhandle ¼Ä´æÆ÷µØÖ·  inum bit¸öÊı
+Description:    //modbuså¯„å­˜å™¨æ“ä½œ å¯¹åº” modbus_bit
+Input:          //å¡é“¾æ¥handle å¯„å­˜å™¨åœ°å€  inum bitä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_Set0x(ZMC_HANDLE handle, uint16 start, uint16 inum, uint8* pdata);
+uint32 __stdcall ZMC_Modbus_Set0x( ZMC_HANDLE handle, uint16 start, uint16 inum, uint8* pdata );
 /*************************************************************
-Description:    //modbus¼Ä´æÆ÷²Ù×÷ ¶ÔÓ¦ modbus_bit
-Input:          //¿¨Á´½Óhandle ¼Ä´æÆ÷µØÖ·  inum bit¸öÊı
+Description:    //modbuså¯„å­˜å™¨æ“ä½œ å¯¹åº” modbus_bit
+Input:          //å¡é“¾æ¥handle å¯„å­˜å™¨åœ°å€  inum bitä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_Get0x(ZMC_HANDLE handle, uint16 start, uint16 inum, uint8* pdata);
+uint32 __stdcall ZMC_Modbus_Get0x( ZMC_HANDLE handle, uint16 start, uint16 inum, uint8* pdata );
 
 /*************************************************************
-Description:    //4xÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_reg¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum reg¸öÊı
+Description:    //4xç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_regè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum regä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_Get4x(ZMC_HANDLE handle, uint16 start, uint16 inum, uint16* pdata);
+uint32 __stdcall ZMC_Modbus_Get4x( ZMC_HANDLE handle, uint16 start, uint16 inum, uint16* pdata );
 
 /*************************************************************
-Description:    //4xÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_reg¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum reg¸öÊı
+Description:    //4xç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_regè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum regä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_Set4x(ZMC_HANDLE handle, uint16 start, uint16 inum, uint16* pdata);
+uint32 __stdcall ZMC_Modbus_Set4x( ZMC_HANDLE handle, uint16 start, uint16 inum, uint16* pdata );
 
 /*************************************************************
-Description:    //¸¡µãÊıÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_ieee¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum ¸¡µãÊı¸öÊı
+Description:    //æµ®ç‚¹æ•°ç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_ieeeè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum æµ®ç‚¹æ•°ä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_SetIEEE(ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata);
+uint32 __stdcall ZMC_Modbus_SetIEEE( ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata );
 
 /*************************************************************
-Description:    //¸¡µãÊıÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_ieee¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum ¸¡µãÊı¸öÊı
+Description:    //æµ®ç‚¹æ•°ç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_ieeeè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum æµ®ç‚¹æ•°ä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_GetIEEE(ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata);
+uint32 __stdcall ZMC_Modbus_GetIEEE( ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata );
 
 /*************************************************************
-Description:    //32Î»ÕûÊıÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_long¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum long¸öÊı
+Description:    //32ä½æ•´æ•°ç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_longè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum longä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_SetLong(ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata);
+uint32 __stdcall ZMC_Modbus_SetLong( ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata );
 /*************************************************************
-Description:    //32Î»ÕûÊıÀàĞÍ¶ÁĞ´£¬¶ÔÓ¦¿ØÖÆÆ÷modbus_long¶ÁĞ´
-Input:          //¿¨Á´½Óhandle  inum long¸öÊı
+Description:    //32ä½æ•´æ•°ç±»å‹è¯»å†™ï¼Œå¯¹åº”æ§åˆ¶å™¨modbus_longè¯»å†™
+Input:          //å¡é“¾æ¥handle  inum longä¸ªæ•°
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_Modbus_GetLong(ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata);
-
-
+uint32 __stdcall ZMC_Modbus_GetLong( ZMC_HANDLE handle, uint16 start, uint16 inum, float* pdata );
 
 /*************************************************************
-Description:    // ¼Ä´æÆ÷²Ù×÷  Ò»´Î³¤¶È²»Òª³¬¹ı200×Ö½Ú
-Input:          //¿¨Á´½Óhandle ¼Ä´æÆ÷µØÖ·
-				pRegName "D" "M" "VR" "VR_INT" "V" "Z" "X" "Y" "T" "C" "DT"
-				iRegbites  0-È±Ê¡£¬ "T" "C" ÓĞÓÃ DT¿ÉÒÔÑ¡Ôñ32»ò64£¬64±íÊ¾doubleÀàĞÍ.
-				
-Output:         //
-Return:         //´íÎóÂë
-*************************************************************/
-uint32 __stdcall ZMC_RegisterRead(ZMC_HANDLE handle, const char *pRegName, uint8 iRegbites, uint32 start, uint16 inum, uint8* pdata);
-/*************************************************************
-Description:    // ¼Ä´æÆ÷²Ù×÷  Ò»´Î³¤¶È²»Òª³¬¹ı200×Ö½Ú
-Input:          //¿¨Á´½Óhandle ¼Ä´æÆ÷µØÖ·
-				pRegName "D" "M" "VR" "VR_INT" "V" "Z"   "Y" "T" "C" "DT"
-				iRegbites  0-È±Ê¡£¬ "T" "C" ÓĞÓÃ,  DT¿ÉÒÔÑ¡Ôñ32»ò64£¬64±íÊ¾doubleÀàĞÍ.
+Description:    // å¯„å­˜å™¨æ“ä½œ  ä¸€æ¬¡é•¿åº¦ä¸è¦è¶…è¿‡200å­—èŠ‚
+Input:          //å¡é“¾æ¥handle å¯„å­˜å™¨åœ°å€
+                pRegName "D" "M" "VR" "VR_INT" "V" "Z" "X" "Y" "T" "C" "DT"
+                iRegbites  0-ç¼ºçœï¼Œ "T" "C" æœ‰ç”¨ DTå¯ä»¥é€‰æ‹©32æˆ–64ï¼Œ64è¡¨ç¤ºdoubleç±»å‹.
 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall ZMC_RegisterWrite(ZMC_HANDLE handle, const char *pRegName, uint8 iRegbites, uint32 start, uint16 inum, uint8* pdata);
+uint32 __stdcall ZMC_RegisterRead( ZMC_HANDLE handle, const char* pRegName, uint8 iRegbites, uint32 start, uint16 inum,
+                                   uint8* pdata );
+/*************************************************************
+Description:    // å¯„å­˜å™¨æ“ä½œ  ä¸€æ¬¡é•¿åº¦ä¸è¦è¶…è¿‡200å­—èŠ‚
+Input:          //å¡é“¾æ¥handle å¯„å­˜å™¨åœ°å€
+                pRegName "D" "M" "VR" "VR_INT" "V" "Z"   "Y" "T" "C" "DT"
+                iRegbites  0-ç¼ºçœï¼Œ "T" "C" æœ‰ç”¨,  DTå¯ä»¥é€‰æ‹©32æˆ–64ï¼Œ64è¡¨ç¤ºdoubleç±»å‹.
+
+Output:         //
+Return:         //é”™è¯¯ç 
+*************************************************************/
+uint32 __stdcall ZMC_RegisterWrite( ZMC_HANDLE handle, const char* pRegName, uint8 iRegbites, uint32 start, uint16 inum,
+                                    uint8* pdata );
 
 /*************************************************************
-Description:    //°Ñ´íÎóÂë×ª³ÉÃèÊö×Ö·û´®
-Input:          //Ó¦´ğµÄÏûÏ¢
+Description:    //æŠŠé”™è¯¯ç è½¬æˆæè¿°å­—ç¬¦ä¸²
+Input:          //åº”ç­”çš„æ¶ˆæ¯
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-const char* ZMC_GetErrcodeDescription(int32 ierrcode);
+const char* ZMC_GetErrcodeDescription( int32 ierrcode );
 
 /*************************************************************
-Description:    //¼ì²é³ÌĞòÓï·¨
+Description:    //æ£€æŸ¥ç¨‹åºè¯­æ³•
 
-ÔİÊ±²»Ìá¹©
+æš‚æ—¶ä¸æä¾›
 
-Input:          //´íÎó×Ö·û´®»º´æ£¬ÖÁÉÙ1024×Ö½Ú
+Input:          //é”™è¯¯å­—ç¬¦ä¸²ç¼“å­˜ï¼Œè‡³å°‘1024å­—èŠ‚
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CheckProgramSyntax(const char *pzpjfilename, char *sError);
+int32 __stdcall ZMC_CheckProgramSyntax( const char* pzpjfilename, char* sError );
 
+// è½´ç‰¹å¾ä½
+enum AXIS_FEATURE_BIT {
+    AXIS_FEATURE_STEPPER        = 0,  //  æ­¥è¿›  è„‰å†²æ–¹å‘
+    AXIS_FEATURE_STEPPER_DOUBLE = 1,  //  æ­¥è¿› åŒè„‰å†²
+    AXIS_FEATURE_STEPPER_AB     = 2,  //  æ­¥è¿› A, Bç›¸
 
-//ÖáÌØÕ÷Î»
-enum AXIS_FEATURE_BIT
-{
-    AXIS_FEATURE_STEPPER = 0, //  ²½½ø  Âö³å·½Ïò
-    AXIS_FEATURE_STEPPER_DOUBLE = 1, //  ²½½ø Ë«Âö³å
-    AXIS_FEATURE_STEPPER_AB = 2, //  ²½½ø A, BÏà
-    
-    AXIS_FEATURE_ENCODER = 4, // Ö§³ÖÅäÖÃÎª±àÂëÆ÷, Õı½», 
-    AXIS_FEATURE_ENCODER_PULDIR = 5, // Âö³å·½Ïò·½Ê½µÄ±àÂëÆ÷
-    AXIS_FEATURE_ENCODER_DOUBLE = 6, // Ë«Âö³å±àÂëÆ÷
-    
-    AXIS_FEATURE_ENCODER_SSI = 7, // 
-    AXIS_FEATURE_ENCODER_TAMA = 8, // 
-    AXIS_FEATURE_ENCODER_ENDAT = 9, // 
-    
-    
-    AXIS_FEATURE_WITH_EZ = 10, // ÓĞEZÊäÈë£¬¿ÉÒÔºÍ²½½øÒ»ÆğÊ¹ÓÃ
-    AXIS_FEATURE_SERVODAC = 11, // dac ËÅ·ş
-    AXIS_FEATURE_STEPCODER = 12, // ÌØÊâµÄÀàĞÍ ²½½øºÍ±àÂëÆ÷Ò»ÆğÊ¹ÓÃ
-    
-    AXIS_FEATURE_CANOPEN = 13, //  ºóÃæµÄÔİÊ±²»Ö§³Ö
-    //AXIS_FEATURE_ZCAN = 14, // Ö§³ÖÅäÖÃÎªZCAN, Õâ¸ö¿ÉÒÔºÍÆäËûµÄÀàĞÍÒ»ÆğºÏ²¢
+    AXIS_FEATURE_ENCODER        = 4,  // æ”¯æŒé…ç½®ä¸ºç¼–ç å™¨, æ­£äº¤,
+    AXIS_FEATURE_ENCODER_PULDIR = 5,  // è„‰å†²æ–¹å‘æ–¹å¼çš„ç¼–ç å™¨
+    AXIS_FEATURE_ENCODER_DOUBLE = 6,  // åŒè„‰å†²ç¼–ç å™¨
 
-    
+    AXIS_FEATURE_ENCODER_SSI   = 7,  //
+    AXIS_FEATURE_ENCODER_TAMA  = 8,  //
+    AXIS_FEATURE_ENCODER_ENDAT = 9,  //
+
+    AXIS_FEATURE_WITH_EZ   = 10,  // æœ‰EZè¾“å…¥ï¼Œå¯ä»¥å’Œæ­¥è¿›ä¸€èµ·ä½¿ç”¨
+    AXIS_FEATURE_SERVODAC  = 11,  // dac ä¼ºæœ
+    AXIS_FEATURE_STEPCODER = 12,  // ç‰¹æ®Šçš„ç±»å‹ æ­¥è¿›å’Œç¼–ç å™¨ä¸€èµ·ä½¿ç”¨
+
+    AXIS_FEATURE_CANOPEN = 13,  //  åé¢çš„æš‚æ—¶ä¸æ”¯æŒ
+    // AXIS_FEATURE_ZCAN = 14, // æ”¯æŒé…ç½®ä¸ºZCAN, è¿™ä¸ªå¯ä»¥å’Œå…¶ä»–çš„ç±»å‹ä¸€èµ·åˆå¹¶
+
 };
 
 /*************************************************************
-Description:    //¶ÁÈ¡¿ØÖÆÆ÷Öá¹æ¸ñ
-Input:          //¿¨Á´½Óhandle
-                  iaxis     ÖáºÅ
-Output:         //pfeatures ¹æ¸ñ
-Return:         //´íÎóÂë
+Description:    //è¯»å–æ§åˆ¶å™¨è½´è§„æ ¼
+Input:          //å¡é“¾æ¥handle
+                  iaxis     è½´å·
+Output:         //pfeatures è§„æ ¼
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetAxisFeatures(ZMC_HANDLE handle, uint8 iaxis, uint32 *pfeatures);
-
+int32 __stdcall ZMC_GetAxisFeatures( ZMC_HANDLE handle, uint8 iaxis, uint32* pfeatures );
 
 #define SUPPORTBIT_PLC 0
 #define SUPPORTBIT_ROM 1
-#define SUPPORTBIT_UDP 2 //udpÓëtcp²¢ĞĞµÄ¹¦ÄÜ
+#define SUPPORTBIT_UDP 2  // udpä¸tcpå¹¶è¡Œçš„åŠŸèƒ½
 #define SUPPORTBIT_GCODE 3
-#define SUPPORTBIT_HMI 4  //³¬¼¶PLC¹¦ÄÜ
-#define SUPPORTBIT_MODBUSUDP 5  // modbus udp µÄ¹¦ÄÜ
+#define SUPPORTBIT_HMI 4        // è¶…çº§PLCåŠŸèƒ½
+#define SUPPORTBIT_MODBUSUDP 5  // modbus udp çš„åŠŸèƒ½
 
-typedef  struct
-{
-    //Ö÷Òª¹æ¸ñ
-    uint8   m_bIfSupportBasic; // 
-    uint8   m_bIfSupportPLC; // 0 ÊÇ·ñÖ§³ÖPLC³ÌĞò,  1, ÊÇ·ñÖ§³ÖROM,  2, ÊÇ·ñÖ§³ÖUDP£¬ 3£¬ÊÇ·ñÖ§³ÖG´úÂë
-    uint8   m_bIfSupportRamRun; // ÏÂÔØµ½RAMÔËĞĞ
-    uint8   m_bIfLocked; // ÊÇ·ñLOCK
+typedef struct {
+    // ä¸»è¦è§„æ ¼
+    uint8 m_bIfSupportBasic;   //
+    uint8 m_bIfSupportPLC;     // 0 æ˜¯å¦æ”¯æŒPLCç¨‹åº,  1, æ˜¯å¦æ”¯æŒROM,  2, æ˜¯å¦æ”¯æŒUDPï¼Œ 3ï¼Œæ˜¯å¦æ”¯æŒGä»£ç 
+    uint8 m_bIfSupportRamRun;  // ä¸‹è½½åˆ°RAMè¿è¡Œ
+    uint8 m_bIfLocked;         // æ˜¯å¦LOCK
 
-    //ÖáÊı¹æ¸ñ
-    uint16  m_MaxVirtuAxises;
-    uint8   m_MaxAxises;
-    uint8   m_MaxBreakes;  // ×î¶à¶ÏµãÊı
-    //IO¹æ¸ñ
-    uint8   m_MaxInController;
-    uint8   m_MaxOutController;
-    uint8   m_MaxAdController;
-    uint8   m_MaxDaController;
+    // è½´æ•°è§„æ ¼
+    uint16 m_MaxVirtuAxises;
+    uint8 m_MaxAxises;
+    uint8 m_MaxBreakes;  // æœ€å¤šæ–­ç‚¹æ•°
+    // IOè§„æ ¼
+    uint8 m_MaxInController;
+    uint8 m_MaxOutController;
+    uint8 m_MaxAdController;
+    uint8 m_MaxDaController;
 
-    //´æ´¢¹æ¸ñ
-    uint32  m_MaxProgramSpaceinKB;  // ×Ü³ÌĞò¿Õ¼ä
-    uint32  m_MaxNandSpaceinKB;
-    uint32  m_MaxNandSpaceRemaininKB; //Ê£ÓàµÄ¿Õ¼ä
+    // å­˜å‚¨è§„æ ¼
+    uint32 m_MaxProgramSpaceinKB;  // æ€»ç¨‹åºç©ºé—´
+    uint32 m_MaxNandSpaceinKB;
+    uint32 m_MaxNandSpaceRemaininKB;  // å‰©ä½™çš„ç©ºé—´
 
-    //modbus¼Ä´æÆ÷¹æ¸ñ
-    uint16  m_MaxModbusBits;
-    uint16  m_MaxModbusRegs;
+    // modbuså¯„å­˜å™¨è§„æ ¼
+    uint16 m_MaxModbusBits;
+    uint16 m_MaxModbusRegs;
 
-    //ÏÂÃæÎªBASIC¹æ¸ñ
-    uint16  m_MaxFiles;     //ÏµÍ³Ö§³Ö³ÌĞòÎÄ¼şÊı
-    uint8   m_Max3Files;
-    //uint8   m_bIfSupport3File; // 3´ÎÎÄ¼ş.
-    uint8   m_bReserve;
+    // ä¸‹é¢ä¸ºBASICè§„æ ¼
+    uint16 m_MaxFiles;  // ç³»ç»Ÿæ”¯æŒç¨‹åºæ–‡ä»¶æ•°
+    uint8 m_Max3Files;
+    // uint8   m_bIfSupport3File; // 3æ¬¡æ–‡ä»¶.
+    uint8 m_bReserve;
 
-	//trio¼æÈİ
-    uint32  m_MaxTable;
-    uint32  m_MaxVr;
-    
-    uint16  m_MaxTaskes;    //ÏµÍ³ÈÎÎñÊı
-    uint16  m_MaxTimeres;   //×î´óTIMESÊı
-    
-    uint16  m_MaxVarNum; //    ±äÁ¿Êı
-    uint16  m_MaxArrayNum; //        
+    // trioå…¼å®¹
+    uint32 m_MaxTable;
+    uint32 m_MaxVr;
 
-    uint32  m_MaxArraySpace; //      
-    
-    uint16  m_MaxSubes; //            
-    //uint16  m_MaxStackes; //      ¶ÑÕ»²ãÊı      
-    uint8  m_MaxStackes; //   ¸Ä³É8Î»         
-    uint8  m_MaxScopes; //Ê¾²¨Æ÷Í¨µÀÊı
-    
-    //uint16  m_MaxExpressionLayeres; //  ±í´ïÊ½¸´ÔÓ³Ì¶È
-    uint8  m_MaxExpressionLayeres;
-	uint8  m_Reserve81;
-	
-    //uint16  m_MaxLabelChares;  //Ãû³Æ×Ö·ûÊı
-    uint8  m_MaxLabelChares;
-	uint8  m_Reserve82; //Ô¤Áô
-    
-}struct_SysMaxSpecification;
+    uint16 m_MaxTaskes;   // ç³»ç»Ÿä»»åŠ¡æ•°
+    uint16 m_MaxTimeres;  // æœ€å¤§TIMESæ•°
+
+    uint16 m_MaxVarNum;    //    å˜é‡æ•°
+    uint16 m_MaxArrayNum;  //
+
+    uint32 m_MaxArraySpace;  //
+
+    uint16 m_MaxSubes;  //
+    // uint16  m_MaxStackes; //      å †æ ˆå±‚æ•°
+    uint8 m_MaxStackes;  //   æ”¹æˆ8ä½
+    uint8 m_MaxScopes;   // ç¤ºæ³¢å™¨é€šé“æ•°
+
+    // uint16  m_MaxExpressionLayeres; //  è¡¨è¾¾å¼å¤æ‚ç¨‹åº¦
+    uint8 m_MaxExpressionLayeres;
+    uint8 m_Reserve81;
+
+    // uint16  m_MaxLabelChares;  //åç§°å­—ç¬¦æ•°
+    uint8 m_MaxLabelChares;
+    uint8 m_Reserve82;  // é¢„ç•™
+
+} struct_SysMaxSpecification;
 
 /*************************************************************
-Description:    //¶ÁÈ¡¿ØÖÆÆ÷¹æ¸ñ
-Input:          //¿¨Á´½Óhandle
+Description:    //è¯»å–æ§åˆ¶å™¨è§„æ ¼
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_GetSysSpecification(ZMC_HANDLE handle, struct_SysMaxSpecification *pspeci);
+int32 __stdcall ZMC_GetSysSpecification( ZMC_HANDLE handle, struct_SysMaxSpecification* pspeci );
 
 /*************************************************************
-Description:    //¶ÁÈ¡½Å±¾Êä³öµÄĞÅÏ¢
-Input:          //¿¨Á´½Óhandle
+Description:    //è¯»å–è„šæœ¬è¾“å‡ºçš„ä¿¡æ¯
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ReadMessage(ZMC_HANDLE handle, char * pbuff, uint32 uimax, uint32 *puiread);
-
+int32 __stdcall ZMC_ReadMessage( ZMC_HANDLE handle, char* pbuff, uint32 uimax, uint32* puiread );
 
 /*************************************************************
-Description:    //µ¥²½Ö´ĞĞ
+Description:    //å•æ­¥æ‰§è¡Œ
 Input:          //
-// µ¥²½¶¨Òå
+// å•æ­¥å®šä¹‰
 enum ZBASIC_STEPMODE
 {
     STEP_MODE_NONE = 0,
-    STEP_MODE_IN = 1,  // Ìøµ½ÀïÃæ
-    STEP_MODE_NEXT = 2,  // Ìøµ½ ÏÂÒ»¸ö
-    STEP_MODE_OUT = 3,  // Ìøµ½ ÉÏ²ã
-    STEP_MODE_SPECIALLINE = 4,  // Ìøµ½ Ö¸¶¨ĞĞ
+    STEP_MODE_IN = 1,  // è·³åˆ°é‡Œé¢
+    STEP_MODE_NEXT = 2,  // è·³åˆ° ä¸‹ä¸€ä¸ª
+    STEP_MODE_OUT = 3,  // è·³åˆ° ä¸Šå±‚
+    STEP_MODE_SPECIALLINE = 4,  // è·³åˆ° æŒ‡å®šè¡Œ
 };
-				ifilenum:Ö¸¶¨ĞĞµÄÊ±ºòÊ¹ÓÃ
+                ifilenum:æŒ‡å®šè¡Œçš„æ—¶å€™ä½¿ç”¨
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_StepRun(ZMC_HANDLE handle, uint16 taskid, uint8 Stepmode, uint8 bifBreakAll, uint8 ifilenum, uint32 iLineNum);
+int32 __stdcall ZMC_StepRun( ZMC_HANDLE handle, uint16 taskid, uint8 Stepmode, uint8 bifBreakAll, uint8 ifilenum,
+                             uint32 iLineNum );
 
-
-enum ZBASIC_STEPMODE
-{
-    STEP_MODE_NONE = 0,
-    STEP_MODE_IN = 1,  // Ìøµ½ÀïÃæ
-    STEP_MODE_NEXT = 2,  // Ìøµ½ ÏÂÒ»¸ö
-    STEP_MODE_OUT = 3,  // Ìøµ½ ÉÏ²ã
-    STEP_MODE_SPECIALLINE = 4,  // Ìøµ½ Ö¸¶¨ĞĞ
+enum ZBASIC_STEPMODE {
+    STEP_MODE_NONE        = 0,
+    STEP_MODE_IN          = 1,  // è·³åˆ°é‡Œé¢
+    STEP_MODE_NEXT        = 2,  // è·³åˆ° ä¸‹ä¸€ä¸ª
+    STEP_MODE_OUT         = 3,  // è·³åˆ° ä¸Šå±‚
+    STEP_MODE_SPECIALLINE = 4,  // è·³åˆ° æŒ‡å®šè¡Œ
 };
 
-
-
-
-
 /*************************************************************
-Description:    //È¡Ïûµ±Ç°ÕıÔÚÖ´ĞĞµÄÃüÁî
-Input:          //¿¨Á´½Óhandle
+Description:    //å–æ¶ˆå½“å‰æ­£åœ¨æ‰§è¡Œçš„å‘½ä»¤
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CancelOnline(ZMC_HANDLE handle);
-
+int32 __stdcall ZMC_CancelOnline( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //¶Ïµã, LIBÎÄ¼şÀïÃæ²»ÄÜÔö¼Ó¶Ïµã.
-Input:          //¿¨Á´½Óhandle ĞĞºÅ ´Ó0 ¿ªÊ¼±àºÅ
+Description:    //æ–­ç‚¹, LIBæ–‡ä»¶é‡Œé¢ä¸èƒ½å¢åŠ æ–­ç‚¹.
+Input:          //å¡é“¾æ¥handle è¡Œå· ä»0 å¼€å§‹ç¼–å·
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_BreakAdd(ZMC_HANDLE handle, const char* filenamenoext, uint32 ilinenum, uint8 bifPauseAll);
+int32 __stdcall ZMC_BreakAdd( ZMC_HANDLE handle, const char* filenamenoext, uint32 ilinenum, uint8 bifPauseAll );
 
 /*************************************************************
-Description:    //¶Ïµã, LIBÎÄ¼şÀïÃæ²»ÄÜÔö¼Ó¶Ïµã.
-Input:          //¿¨Á´½Óhandle ĞĞºÅ ´Ó0 ¿ªÊ¼±àºÅ
+Description:    //æ–­ç‚¹, LIBæ–‡ä»¶é‡Œé¢ä¸èƒ½å¢åŠ æ–­ç‚¹.
+Input:          //å¡é“¾æ¥handle è¡Œå· ä»0 å¼€å§‹ç¼–å·
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_BreakDel(ZMC_HANDLE handle, const char* filenamenoext, uint32 ilinenum);
+int32 __stdcall ZMC_BreakDel( ZMC_HANDLE handle, const char* filenamenoext, uint32 ilinenum );
 
 /*************************************************************
-Description:    //¶ÏµãÇå³ı
-Input:          //¿¨Á´½Óhandle
+Description:    //æ–­ç‚¹æ¸…é™¤
+Input:          //å¡é“¾æ¥handle
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_BreakClear(ZMC_HANDLE handle);
-
+int32 __stdcall ZMC_BreakClear( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    //È«¾ÖÊı×éĞŞ¸Ä
-Input:          //¿¨Á´½Óhandle
-Output:         // È«¾ÖÊı×éÃû ÆğÊ¼Ë÷Òı
-Return:         //´íÎóÂë
+Description:    //å…¨å±€æ•°ç»„ä¿®æ”¹
+Input:          //å¡é“¾æ¥handle
+Output:         // å…¨å±€æ•°ç»„å èµ·å§‹ç´¢å¼•
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ArrayWritef(ZMC_HANDLE handle, char *sname, uint32 uistartIndex, uint32 uinumes, float *pfValue);
+int32 __stdcall ZMC_ArrayWritef( ZMC_HANDLE handle, char* sname, uint32 uistartIndex, uint32 uinumes, float* pfValue );
 /*************************************************************
-Description:    //È«¾ÖÊı×é¶ÁÈ¡
-Input:          //¿¨Á´½Óhandle
-Output:         // È«¾ÖÊı×éÃû ÆğÊ¼Ë÷Òı
-Return:         //´íÎóÂë
+Description:    //å…¨å±€æ•°ç»„è¯»å–
+Input:          //å¡é“¾æ¥handle
+Output:         // å…¨å±€æ•°ç»„å èµ·å§‹ç´¢å¼•
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ArrayReadf(ZMC_HANDLE handle, char *sname, uint32 uistartIndex, uint32 uinumes, float *pfValue);
+int32 __stdcall ZMC_ArrayReadf( ZMC_HANDLE handle, char* sname, uint32 uistartIndex, uint32 uinumes, float* pfValue );
 
-
-
-// Ôö¼ÓÖÜÆÚÉÏ±¨µÄº¯ÊıÉèÖÃ
+// å¢åŠ å‘¨æœŸä¸ŠæŠ¥çš„å‡½æ•°è®¾ç½®
 /*************************************************************
-Description:    // Ê¹ÄÜÖÜÆÚÉÏ±¨
-Input:          // cycleindex:  ÉÏ±¨Í¨µÀºÅ, 0-×î´óÖµ-1
-                    fintervalms:  ÉÏ±¨¼ä¸ôÊ±¼ä, msµ¥Î», ²»ÄÜµÍÓÚ¿ØÖÆÆ÷SERVO_PERIOD
-                    psetesname ÉÏ±¨²ÎÊıÑ¡Ôñ, Óï·¨: ²ÎÊı1, ²ÎÊı2(index), ²ÎÊı3(index, numes)
+Description:    // ä½¿èƒ½å‘¨æœŸä¸ŠæŠ¥
+Input:          // cycleindex:  ä¸ŠæŠ¥é€šé“å·, 0-æœ€å¤§å€¼-1
+                    fintervalms:  ä¸ŠæŠ¥é—´éš”æ—¶é—´, mså•ä½, ä¸èƒ½ä½äºæ§åˆ¶å™¨SERVO_PERIOD
+                    psetesname ä¸ŠæŠ¥å‚æ•°é€‰æ‹©, è¯­æ³•: å‚æ•°1, å‚æ•°2(index), å‚æ•°3(index, numes)
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CycleUpEnable(ZMC_HANDLE handle, uint32 cycleindex, float fintervalms, const char* psetesname);
-
+int32 __stdcall ZMC_CycleUpEnable( ZMC_HANDLE handle, uint32 cycleindex, float fintervalms, const char* psetesname );
 
 /*************************************************************
-Description:    // È¥Ê¹ÄÜÖÜÆÚÉÏ±¨
-Input:          // cycleindex:  ÉÏ±¨Í¨µÀºÅ, 0-×î´óÖµ-1
+Description:    // å»ä½¿èƒ½å‘¨æœŸä¸ŠæŠ¥
+Input:          // cycleindex:  ä¸ŠæŠ¥é€šé“å·, 0-æœ€å¤§å€¼-1
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CycleUpDisable(ZMC_HANDLE handle, uint32 cycleindex);
-
-
+int32 __stdcall ZMC_CycleUpDisable( ZMC_HANDLE handle, uint32 cycleindex );
 
 /*************************************************************
-Description:	// ÖÜÆÚÉÏ±¨ÊÕµ½µÄ°ü´ÎÊı, ³¬¹ıÒç³ö. µ÷ÊÔÊ¹ÓÃ.
-Input:			// 
+Description:	// å‘¨æœŸä¸ŠæŠ¥æ”¶åˆ°çš„åŒ…æ¬¡æ•°, è¶…è¿‡æº¢å‡º. è°ƒè¯•ä½¿ç”¨.
+Input:			//
 Output: 		//
-Return: 		// ´ÎÊı
+Return: 		// æ¬¡æ•°
 *************************************************************/
-uint32 __stdcall ZMC_CycleUpGetRecvTimes(ZMC_HANDLE handle, uint32 cycleindex);
-
+uint32 __stdcall ZMC_CycleUpGetRecvTimes( ZMC_HANDLE handle, uint32 cycleindex );
 
 /*************************************************************
-Description:    // Ç¿ÖÆÉÏ±¨Ò»´Î, ÔÚÔË¶¯Ö¸Áîºóidle¿ÉÄÜ²»×¼È·µÄÇé¿öÏÂµ÷ÓÃ.
-Input:          // 
+Description:    // å¼ºåˆ¶ä¸ŠæŠ¥ä¸€æ¬¡, åœ¨è¿åŠ¨æŒ‡ä»¤åidleå¯èƒ½ä¸å‡†ç¡®çš„æƒ…å†µä¸‹è°ƒç”¨.
+Input:          //
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CycleUpForceOnce(ZMC_HANDLE handle, uint32 cycleindex);
-
-
-
+int32 __stdcall ZMC_CycleUpForceOnce( ZMC_HANDLE handle, uint32 cycleindex );
 
 /*************************************************************
-Description:	// ´ÓÖÜÆÚÉÏ±¨ÀïÃæ¶ÁÈ¡ÄÚÈİ
-Input:			// cycleindex -1, ×Ô¶¯Ñ¡Ôñcycle±àºÅ
-					psetname	²ÎÊıÃû³Æ
-					isetindex 	²ÎÊı±àºÅ
-					
-Output: 		//	pvalue ·µ»ØÖµ
-Return: 		// ´íÎóÂë
+Description:	// ä»å‘¨æœŸä¸ŠæŠ¥é‡Œé¢è¯»å–å†…å®¹
+Input:			// cycleindex -1, è‡ªåŠ¨é€‰æ‹©cycleç¼–å·
+                    psetname	å‚æ•°åç§°
+                    isetindex 	å‚æ•°ç¼–å·
+
+Output: 		//	pvalue è¿”å›å€¼
+Return: 		// é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall  ZMC_CycleUpReadBuff(ZMC_HANDLE handle, uint32 cycleindex, const char *psetname, uint32 isetindex, double *pvalue);
-
-
+uint32 __stdcall ZMC_CycleUpReadBuff( ZMC_HANDLE handle, uint32 cycleindex, const char* psetname, uint32 isetindex,
+                                      double* pvalue );
 
 /*************************************************************
-Description:	// ´ÓÖÜÆÚÉÏ±¨ÀïÃæ¶ÁÈ¡ÄÚÈİ
-Input:			// cycleindex -1, ×Ô¶¯Ñ¡Ôñcycle±àºÅ
-					psetname	²ÎÊıÃû³Æ
-					isetindex 	²ÎÊı±àºÅ
-					
-Output: 		//	pvalue ·µ»ØÖµ
-Return: 		// ´íÎóÂë
-*************************************************************/
-uint32 __stdcall  ZMC_CycleUpReadBuffInt(ZMC_HANDLE handle, uint32 cycleindex, const char *psetname, uint32 isetindex, int32*pvalue);
+Description:	// ä»å‘¨æœŸä¸ŠæŠ¥é‡Œé¢è¯»å–å†…å®¹
+Input:			// cycleindex -1, è‡ªåŠ¨é€‰æ‹©cycleç¼–å·
+                    psetname	å‚æ•°åç§°
+                    isetindex 	å‚æ•°ç¼–å·
 
+Output: 		//	pvalue è¿”å›å€¼
+Return: 		// é”™è¯¯ç 
+*************************************************************/
+uint32 __stdcall ZMC_CycleUpReadBuffInt( ZMC_HANDLE handle, uint32 cycleindex, const char* psetname, uint32 isetindex,
+                                         int32* pvalue );
 
 /*************************************************************
-Description:    // Ö±½Ó·¢ËÍÁ¬ĞøĞ¡Ïß¶Î²å²¹.
-Input:          //¿¨Á´½Óhandle
-				imain Ö÷ÖáÖáºÅ
-				imode	bit0- bifabs	
-						bit1- bifsp		ÊÇ·ñ				
-						bit2- bifresume	
-						bit3- bifmovescan µ÷ÓÃ							
-				iseges	Ö±Ïß¸öÊı
-				ilineaxises	Ò»¸ö²å²¹µÄÖáÊı
-				piaxislist  ÖáÁĞ±í
-				pfValue	×ø±êÊı¾İ, Ò»¹² iseges * ilineaxises
+Description:    // ç›´æ¥å‘é€è¿ç»­å°çº¿æ®µæ’è¡¥.
+Input:          //å¡é“¾æ¥handle
+                imain ä¸»è½´è½´å·
+                imode	bit0- bifabs
+                        bit1- bifsp		æ˜¯å¦
+                        bit2- bifresume
+                        bit3- bifmovescan è°ƒç”¨
+                iseges	ç›´çº¿ä¸ªæ•°
+                ilineaxises	ä¸€ä¸ªæ’è¡¥çš„è½´æ•°
+                piaxislist  è½´åˆ—è¡¨
+                pfValue	åæ ‡æ•°æ®, ä¸€å…± iseges * ilineaxises
 
-Output:         // pRemainBuff ·µ»ØÊ£ÓàÖ±Ïß»º³åÊı
-Return:         //´íÎóÂë
+Output:         // pRemainBuff è¿”å›å‰©ä½™ç›´çº¿ç¼“å†²æ•°
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_MultiLineN(ZMC_HANDLE handle, int32 imain, int32 imode, int32 iseges, int32 ilineaxises, int32 *piaxislist,  float *pfposlist, int32 *pRemainBuff);
+int32 __stdcall ZMC_MultiLineN( ZMC_HANDLE handle, int32 imain, int32 imode, int32 iseges, int32 ilineaxises,
+                                int32* piaxislist, float* pfposlist, int32* pRemainBuff );
 
 #if 0
     // callback
 #endif
 
 /*************************************************************
-Description:    // ½¨Á¢»Øµ÷Í¨µÀ
-Input:          // Í¨µÀ¸öÊı
+Description:    // å»ºç«‹å›è°ƒé€šé“
+Input:          // é€šé“ä¸ªæ•°
 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CallBack_Setup(ZMC_HANDLE handle, int32 ibuffnum);
+int32 __stdcall ZMC_CallBack_Setup( ZMC_HANDLE handle, int32 ibuffnum );
 
 /*************************************************************
-Description:    // ½¨Á¢»Øµ÷Í¨µÀ 
-Input:          // pcmdname Òª´óĞ´
+Description:    // å»ºç«‹å›è°ƒé€šé“
+Input:          // pcmdname è¦å¤§å†™
 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CallBack_AddCmd(ZMC_HANDLE handle, const char * pcmdname, int32 iparamin, int32 iparamax, int32 bifstringpara);
+int32 __stdcall ZMC_CallBack_AddCmd( ZMC_HANDLE handle, const char* pcmdname, int32 iparamin, int32 iparamax,
+                                     int32 bifstringpara );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀ , ³õÊ¼»¯Íê³É£¬ Í¨ÖªBASIC¿ÉÒÔÆô¶¯ÁË¡£  ĞèÒªµÈ´ı»Øµ÷³õÊ¼»¯µÄÇé¿öÏÂ.
+Description:    // å›è°ƒé€šé“ , åˆå§‹åŒ–å®Œæˆï¼Œ é€šçŸ¥BASICå¯ä»¥å¯åŠ¨äº†ã€‚  éœ€è¦ç­‰å¾…å›è°ƒåˆå§‹åŒ–çš„æƒ…å†µä¸‹.
 
-                Êµ¼Ê¿ÉÒÔ²»ÓÃ.
+                å®é™…å¯ä»¥ä¸ç”¨.
 
-Input:          // 
+Input:          //
 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CallBack_InitDown(ZMC_HANDLE handle);
+int32 __stdcall ZMC_CallBack_InitDown( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    // »ñÈ¡»Øµ÷Í¨µÀµÄÍ¨µÀÊı£¬ Ã»ÓĞ·µ»Ø0£¬ Ò»°ã1¸ö
-Input:          // 
+Description:    // è·å–å›è°ƒé€šé“çš„é€šé“æ•°ï¼Œ æ²¡æœ‰è¿”å›0ï¼Œ ä¸€èˆ¬1ä¸ª
+Input:          //
 
 Output:         //
-Return:         // Í¨µÀÊı
+Return:         // é€šé“æ•°
 *************************************************************/
-int32 __stdcall ZMC_CallBack_GetChannels(ZMC_HANDLE handle);
+int32 __stdcall ZMC_CallBack_GetChannels( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    // ¹Ø±Õ»Øµ÷Í¨µÀ£¬ LOCAL¹Ø±ÕµÄÊ±ºò£¬ »á×Ô¶¯¹Ø±Õ¡£
-Input:          // 
+Description:    // å…³é—­å›è°ƒé€šé“ï¼Œ LOCALå…³é—­çš„æ—¶å€™ï¼Œ ä¼šè‡ªåŠ¨å…³é—­ã€‚
+Input:          //
 
 Output:         //
-Return:         //´íÎóÂë
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_CallBack_Close(ZMC_HANDLE handle);
+int32 __stdcall ZMC_CallBack_Close( ZMC_HANDLE handle );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀµÄÖ¸Õë»ñÈ¡£¬ ¶à¸ö»º³åÊ±Ìî ibuffindex
-Input:          // 
+Description:    // å›è°ƒé€šé“çš„æŒ‡é’ˆè·å–ï¼Œ å¤šä¸ªç¼“å†²æ—¶å¡« ibuffindex
+Input:          //
 
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸
 *************************************************************/
-char*  __stdcall ZMC_CallBack_GetPtrSend(ZMC_HANDLE handle, int32 ibuffindex);
+char* __stdcall ZMC_CallBack_GetPtrSend( ZMC_HANDLE handle, int32 ibuffindex );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀµÄÖ¸Õë»ñÈ¡£¬ ¶à¸ö»º³åÊ±Ìî ibuffindex
-Input:          // 
+Description:    // å›è°ƒé€šé“çš„æŒ‡é’ˆè·å–ï¼Œ å¤šä¸ªç¼“å†²æ—¶å¡« ibuffindex
+Input:          //
 
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸
 *************************************************************/
-char*  __stdcall ZMC_CallBack_GetPtrRecv(ZMC_HANDLE handle, int32 ibuffindex);
-
+char* __stdcall ZMC_CallBack_GetPtrRecv( ZMC_HANDLE handle, int32 ibuffindex );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀÊı¾İÅĞ¶Ï  struct_CallBackUpHead ¸ñÊ½
-Input:          // 
+Description:    // å›è°ƒé€šé“æ•°æ®åˆ¤æ–­  struct_CallBackUpHead æ ¼å¼
+Input:          //
 
 Output:         //
-Return:         //ÊÇ·ñÓĞÊı¾İ.
+Return:         //æ˜¯å¦æœ‰æ•°æ®.
 *************************************************************/
-bool  __stdcall ZMC_Callback_CheckBuff(ZMC_HANDLE handle, int32 ibuffnum);
+bool __stdcall ZMC_Callback_CheckBuff( ZMC_HANDLE handle, int32 ibuffnum );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀÊı¾İÅĞ¶Ï
+Description:    // å›è°ƒé€šé“æ•°æ®åˆ¤æ–­
 
-Input:          // iresult Ğ´´íÎóÂë£¬ 0±êÊ¶OK
-				   pString ´íÎóĞÅÏ¢.
+Input:          // iresult å†™é”™è¯¯ç ï¼Œ 0æ ‡è¯†OK
+                   pString é”™è¯¯ä¿¡æ¯.
 
 Output:         //
-Return:         //ÊÇ·ñÓĞÊı¾İ.
+Return:         //æ˜¯å¦æœ‰æ•°æ®.
 *************************************************************/
-uint32  __stdcall ZMC_Callback_WriteAck(ZMC_HANDLE handle, int32 ibuffnum, int32 iresult, const char *pString);
+uint32 __stdcall ZMC_Callback_WriteAck( ZMC_HANDLE handle, int32 ibuffnum, int32 iresult, const char* pString );
 
 /*************************************************************
-Description:    // »Øµ÷Í¨µÀÊı¾İ×èÈûµÈ´ı£¬ ×èÈûÊ±ÈÎÎñË¯Ãß£¬½ÚÊ¡cpu£¬ ÓĞÊı¾İÊ±×Ô¶¯»½ĞÑ¡£
+Description:    // å›è°ƒé€šé“æ•°æ®é˜»å¡ç­‰å¾…ï¼Œ é˜»å¡æ—¶ä»»åŠ¡ç¡çœ ï¼ŒèŠ‚çœcpuï¼Œ æœ‰æ•°æ®æ—¶è‡ªåŠ¨å”¤é†’ã€‚
 
-				·µ»ØÊ±ÒªÖØĞÂÅĞ¶ÏÊÇ·ñÓĞÊı¾İ£¬¿ÉÄÜÃ»ÓĞÊı¾İ.
+                è¿”å›æ—¶è¦é‡æ–°åˆ¤æ–­æ˜¯å¦æœ‰æ•°æ®ï¼Œå¯èƒ½æ²¡æœ‰æ•°æ®.
 
-Input:          // 
+Input:          //
 
 Output:         //
-Return:         // windows °æ±¾ Ôö¼Ó´íÎóÂëµÄ·µ»Ø
+Return:         // windows ç‰ˆæœ¬ å¢åŠ é”™è¯¯ç çš„è¿”å›
 *************************************************************/
-uint32  __stdcall ZMC_Callback_CheckandWaitBuff(ZMC_HANDLE handle, int32 ibuffnum, int32 ims);
-
+uint32 __stdcall ZMC_Callback_CheckandWaitBuff( ZMC_HANDLE handle, int32 ibuffnum, int32 ims );
 
 #if 0
-    // local µÄÖ±½Ó½Ó¿Ú, Òì²½·½Ê½·ÃÎÊzmc
+    // local çš„ç›´æ¥æ¥å£, å¼‚æ­¥æ–¹å¼è®¿é—®zmc
 #endif
 
-
 /*************************************************************
-Description:    // ¶ÁÈ¡hmiµÄĞÅÏ¢£¬ ÓÃÓÚhmiÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-Input:          // 
+Description:    // è¯»å–hmiçš„ä¿¡æ¯ï¼Œ ç”¨äºhmiç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pHmi
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pHmi
 *************************************************************/
-char* __stdcall  ZMC_Local_GetHmiInfo(ZMC_HANDLE handle, int32 ihminum, int32 *pwidth, int32 *pheight, int32 *pBites);
+char* __stdcall ZMC_Local_GetHmiInfo( ZMC_HANDLE handle, int32 ihminum, int32* pwidth, int32* pheight, int32* pBites );
 /*************************************************************
-Description:    // ¶ÁÈ¡hmiµÄĞÅÏ¢£¬ ÓÃÓÚhmiÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-Input:          // 
+Description:    // è¯»å–hmiçš„ä¿¡æ¯ï¼Œ ç”¨äºhmiç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pHmi
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pHmi
 *************************************************************/
-uint32 __stdcall  ZMC_Local_GetHmiKeyState(ZMC_HANDLE handle, int32 ihminum, int32 ikey, int32*pkeystate, int32 *pkeyEvent);
+uint32 __stdcall ZMC_Local_GetHmiKeyState( ZMC_HANDLE handle, int32 ihminum, int32 ikey, int32* pkeystate,
+                                           int32* pkeyEvent );
 
 /*************************************************************
-Description:    // ¶ÁÈ¡hmiµÄĞÅÏ¢£¬ ÓÃÓÚhmiÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-Input:          // 
+Description:    // è¯»å–hmiçš„ä¿¡æ¯ï¼Œ ç”¨äºhmiç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pHmi
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pHmi
 *************************************************************/
-uint32 __stdcall  ZMC_Local_GetHmiVKeyState(ZMC_HANDLE handle, int32 ihminum, int32 ivkey, int32*pkeystate, int32 *pkeyEvent);
+uint32 __stdcall ZMC_Local_GetHmiVKeyState( ZMC_HANDLE handle, int32 ihminum, int32 ivkey, int32* pkeystate,
+                                            int32* pkeyEvent );
 
 /*************************************************************
-Description:    // ¶ÁÈ¡¼Ä´æÆ÷£¬ Òì²½¶ÁÈ¡, ²»Ö§³ÖÌØÊâ¼Ä´æÆ÷Ó³Éä.
-                Ä¿Ç°ÊµÏÖ·½°¸ÎŞ·¨Ö§³Ö.
-Input:          // 
+Description:    // è¯»å–å¯„å­˜å™¨ï¼Œ å¼‚æ­¥è¯»å–, ä¸æ”¯æŒç‰¹æ®Šå¯„å­˜å™¨æ˜ å°„.
+                ç›®å‰å®ç°æ–¹æ¡ˆæ— æ³•æ”¯æŒ.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pHmi
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pHmi
 *************************************************************/
-uint32 __stdcall  ZMC_Local_GetRegister(ZMC_HANDLE handle, const char *pRegName, uint8 iRegbites, uint32 start, uint32 inum, uint8* pdata);
+uint32 __stdcall ZMC_Local_GetRegister( ZMC_HANDLE handle, const char* pRegName, uint8 iRegbites, uint32 start,
+                                        uint32 inum, uint8* pdata );
 
 /*************************************************************
-Description:    // Òì²½ÃüÁî£¬ Ö»Ö§³ÖÉÙÊı²ÎÊıµÄ¶ÁÈ¡¡£
-                Ä¿Ç°ÊµÏÖ·½°¸ÎŞ·¨Ö§³Ö.
-Input:          // 
+Description:    // å¼‚æ­¥å‘½ä»¤ï¼Œ åªæ”¯æŒå°‘æ•°å‚æ•°çš„è¯»å–ã€‚
+                ç›®å‰å®ç°æ–¹æ¡ˆæ— æ³•æ”¯æŒ.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pHmi
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pHmi
 *************************************************************/
-uint32 __stdcall  ZMC_Local_DirectCommand(ZMC_HANDLE handle, const char *sSendCommand, char *pRecvCommand);
-
+uint32 __stdcall ZMC_Local_DirectCommand( ZMC_HANDLE handle, const char* sSendCommand, char* pRecvCommand );
 
 /*************************************************************
-Description:    // ¶ÁÈ¡zvlatchµÄĞÅÏ¢£¬ ÓÃÓÚzvÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-                ¿ÉÒÔÓÃÓÚqt¿ìËÙ»ñÈ¡Í¼Ïñ»º³å.
-                »º³åÒ»°ãÊÇBMP16µÄ¸ñÊ½, ¾ÍÊÇ555µÄ¸ñÊ½.
-Input:          // 
+Description:    // è¯»å–zvlatchçš„ä¿¡æ¯ï¼Œ ç”¨äºzvç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+                å¯ä»¥ç”¨äºqtå¿«é€Ÿè·å–å›¾åƒç¼“å†².
+                ç¼“å†²ä¸€èˆ¬æ˜¯BMP16çš„æ ¼å¼, å°±æ˜¯555çš„æ ¼å¼.
+Input:          //
 Output:         //
-Return:         //Ö¸Õë, NULL ±êÊ¶Òì³£, char *pzvlat, Ç°ÃæÓĞ32×Ö½ÚµÄÍ·, ÒªÆ«ÒÆºóÈ¡Í¼ÏñÄÚÈİ.
+Return:         //æŒ‡é’ˆ, NULL æ ‡è¯†å¼‚å¸¸, char *pzvlat, å‰é¢æœ‰32å­—èŠ‚çš„å¤´, è¦åç§»åå–å›¾åƒå†…å®¹.
 *************************************************************/
-char* __stdcall  ZMC_Local_GetZvLatchInfo(ZMC_HANDLE handle, int32 izvlat, int32 *pwidth, int32 *pheight, int32 *pBites);
+char* __stdcall ZMC_Local_GetZvLatchInfo( ZMC_HANDLE handle, int32 izvlat, int32* pwidth, int32* pheight,
+                                          int32* pBites );
 
 /*************************************************************
-Description:    // ÉèÖÃzvlatchµÄĞÅÏ¢£¬ ÓÃÓÚzvÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-Input:          // 
+Description:    // è®¾ç½®zvlatchçš„ä¿¡æ¯ï¼Œ ç”¨äºzvç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+Input:          //
 Output:         //
-Return:         // ´íÎóÂë
+Return:         // é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall  ZMC_Local_SetZvLatchInfo(ZMC_HANDLE handle, int32 izvlat, int32 iwidth, int32 iheight);
+uint32 __stdcall ZMC_Local_SetZvLatchInfo( ZMC_HANDLE handle, int32 izvlat, int32 iwidth, int32 iheight );
 
 /*************************************************************
-Description:    // ÉèÖÃzvlatchµÄĞ´±êÖ¾Î»£¬ ÓÃÓÚzvÀàĞÍµÄ»Øµ÷º¯Êı´¦Àí.
-                ÉèÖÃ1, Ğ´zvlatch»º³åÖĞ, 0- Ğ´Íê³É.
-Input:          // 
+Description:    // è®¾ç½®zvlatchçš„å†™æ ‡å¿—ä½ï¼Œ ç”¨äºzvç±»å‹çš„å›è°ƒå‡½æ•°å¤„ç†.
+                è®¾ç½®1, å†™zvlatchç¼“å†²ä¸­, 0- å†™å®Œæˆ.
+Input:          //
 Output:         //
-Return:         // ´íÎóÂë
+Return:         // é”™è¯¯ç 
 *************************************************************/
-uint32 __stdcall  ZMC_Local_SetZvLatchWrProtect(ZMC_HANDLE handle, int32 izvlat, int32 bifprotect);
-
-
-
+uint32 __stdcall ZMC_Local_SetZvLatchWrProtect( ZMC_HANDLE handle, int32 izvlat, int32 bifprotect );
 
 /*************************************************************
-Description:    // zvlatin°Ñ¶ÁÈ¡ĞÅÏ¢.
-Input:          //  ilatin	Ëø´æÍ¨µÀ±àºÅ  
+Description:    // zvlatinæŠŠè¯»å–ä¿¡æ¯.
+Input:          //  ilatin	é”å­˜é€šé“ç¼–å·
 
-Output:         // pWrTimes ÅĞ¶ÏÊÇ·ñÓÖÓĞËø´æ
-Return:         //´íÎóÂë
+Output:         // pWrTimes åˆ¤æ–­æ˜¯å¦åˆæœ‰é”å­˜
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ZVLatinImgGetInfo(ZMC_HANDLE handle, int ilatin, int *pwidth, int *pheight, int *pbites, int* pWrTimes);
+int32 __stdcall ZMC_ZVLatinImgGetInfo( ZMC_HANDLE handle, int ilatin, int* pwidth, int* pheight, int* pbites,
+                                       int* pWrTimes );
 /*************************************************************
-Description:    // zvlatin°ÑËùÓĞÊı¾İ¶ÁÈ¡¹ıÀ´, ²¢ÌîÈë»º³å 555 ¸ñÊ½
-Input:          //  
+Description:    // zvlatinæŠŠæ‰€æœ‰æ•°æ®è¯»å–è¿‡æ¥, å¹¶å¡«å…¥ç¼“å†² 555 æ ¼å¼
+Input:          //
 
-Output:         // pBuff ÑÕÉ«»º³å 
-Return:         //´íÎóÂë
+Output:         // pBuff é¢œè‰²ç¼“å†²
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ZVLatinImgGet(ZMC_HANDLE handle, int ilatin, int *pwidth, int *pheight, int *pbites, uint8 *pBuff, int ibuffsize);
+int32 __stdcall ZMC_ZVLatinImgGet( ZMC_HANDLE handle, int ilatin, int* pwidth, int* pheight, int* pbites, uint8* pBuff,
+                                   int ibuffsize );
 /*************************************************************
-Description:    // °ÑËùÓĞÊı¾İ¶ÁÈ¡¹ıÀ´, ²¢ÌîÈë»º³å  565 ¸ñÊ½
-Input:          //  
+Description:    // æŠŠæ‰€æœ‰æ•°æ®è¯»å–è¿‡æ¥, å¹¶å¡«å…¥ç¼“å†²  565 æ ¼å¼
+Input:          //
 
-Output:         // pBuff ÑÕÉ«»º³å 
-Return:         //´íÎóÂë
+Output:         // pBuff é¢œè‰²ç¼“å†²
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ZVLatinImgGet2(ZMC_HANDLE handle, int ilatin, int *pwidth, int *pheight, int *pbites, uint8 *pBuff, int ibuffsize);
-
+int32 __stdcall ZMC_ZVLatinImgGet2( ZMC_HANDLE handle, int ilatin, int* pwidth, int* pheight, int* pbites, uint8* pBuff,
+                                    int ibuffsize );
 
 /*************************************************************
-Description:    // °ÑËùÓĞÊı¾İ¶ÁÈ¡¹ıÀ´, ²¢ÌîÈë»º³å  BGR ¸ñÊ½
-Input:          //  
+Description:    // æŠŠæ‰€æœ‰æ•°æ®è¯»å–è¿‡æ¥, å¹¶å¡«å…¥ç¼“å†²  BGR æ ¼å¼
+Input:          //
 
-Output:         // pBuff ÑÕÉ«»º³å 
-Return:         //´íÎóÂë
+Output:         // pBuff é¢œè‰²ç¼“å†²
+Return:         //é”™è¯¯ç 
 *************************************************************/
-int32 __stdcall ZMC_ZVLatinImgGet32(ZMC_HANDLE handle, int ilatin, int *pwidth, int *pheight, int *pbites, uint8 *pBuff, int ibuffsize);
-
-#endif
-
-#ifdef  __cplusplus
-	}
-
+int32 __stdcall ZMC_ZVLatinImgGet32( ZMC_HANDLE handle, int ilatin, int* pwidth, int* pheight, int* pbites,
+                                     uint8* pBuff, int ibuffsize );
 
 #endif
 
+#ifdef __cplusplus
+}
 
+#endif

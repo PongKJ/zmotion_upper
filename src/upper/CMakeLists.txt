@@ -5,11 +5,19 @@ find_package(CLI11 REQUIRED)
 find_package(Qt6 REQUIRED)
 
 qt_standard_project_setup()
-qt_add_executable(gui main.cc mainwindow.cc)
+qt_add_executable(
+  upper
+  main.cc
+  view/mainwindow.cc
+  view/about.cc
+  control/zmc_controller.cc)
 
-target_link_libraries(gui PRIVATE zmotion_upper::zmotion_upper_options zmotion_upper::zmotion_upper_warnings)
+target_link_directories(upper PRIVATE "${CMAKE_SOURCE_DIR}/third_party/zmotion/lib")
+target_link_libraries(upper PRIVATE zmotion_upper::zmotion_upper_options zmotion_upper::zmotion_upper_warnings zmotion)
+target_include_directories(upper PRIVATE "${CMAKE_SOURCE_DIR}/third_party/zmotion/include")
+
 target_link_system_libraries(
-  gui
+  upper
   PRIVATE
   spdlog::spdlog
   JsonCpp::JsonCpp
@@ -18,7 +26,7 @@ target_link_system_libraries(
   ElaWidgetTools
   qt::qt)
 
-target_include_directories(gui PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
+target_include_directories(upper PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
 
 #遍历所有资源文件
 file(
@@ -41,7 +49,7 @@ foreach(filepath ${RES_PATHS})
 endforeach(filepath)
 
 qt_add_resources(
-  gui
+  upper
   "ElaWidgetToolsExample"
   RESOURCES
   PREFIX
@@ -51,7 +59,7 @@ qt_add_resources(
 
 qt_generate_deploy_app_script(
   TARGET
-  gui
+  upper
   #NO_COMPILER_RUNTIME
   NO_TRANSLATIONS
   OUTPUT_SCRIPT

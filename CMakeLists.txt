@@ -88,7 +88,7 @@ if(MSVC)
 endif()
 
 # set the startup project for the "play" button in MSVC
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gui)
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT upper)
 
 if(CMAKE_SKIP_INSTALL_RULES)
   return()
@@ -100,7 +100,7 @@ include(cmake/PackageProject.cmake)
 # know we want to ship
 zmotion_upper_package_project(
   TARGETS
-  gui
+  upper
   # zmotion_upper_options
   # zmotion_upper_warnings
   # FIXME: this does not work! CK PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings

@@ -8,16 +8,20 @@
 #include <CLI/CLI.hpp>
 #include <QApplication>
 #include <QScreen>
-#include <cstdlib>
 #include <internal_use_only/config.hpp>
 
 #include "ElaApplication.h"
-#include "mainwindow.h"
+#include "control/zmc_controller.h"
+#include "view/mainwindow.h"
 
 int main( [[maybe_unused]] int argc, [[maybe_unused]] char* argv[] ) {
+    try {
+        ZMCController controller( "127.0.0.1" );
+    }
+    catch ( const std::exception& ) {
+    }
     spdlog::set_level( spdlog::level::debug );
-    spdlog::debug( "hello world" );
-    QGuiApplication::setAttribute( Qt::AA_EnableHighDpiScaling );
+    spdlog::debug( "Starting App ..." );
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy( Qt::HighDpiScaleFactorRoundingPolicy::PassThrough );
     QApplication a( argc, argv );
     eApp->init();
