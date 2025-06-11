@@ -40,6 +40,7 @@ class ConanApplication(ConanFile):
         self.requires("qt/6.6.3")
 
     def configure(self):
+        self.options["libiconv"].shared = True
         if str(self.settings.os) == "Linux":
             self.options["qt"].qtwayland = True
             self.options["qt"].with_x11 = False

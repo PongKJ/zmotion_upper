@@ -40,7 +40,6 @@ class ConfigModifier {
       const configToAppend = `
 tools.build:skip_test = True
 tools.cmake:install_strip = True
-tools.microsoft.msbuild:installation_path=${MSVCInstallDir}
 `.trim();
       fs.appendFileSync(this.conanGlobalConfigPath, configToAppend);
     } catch (error) {
@@ -82,10 +81,10 @@ class MSVCToolchainManager {
 
   private async detectInstalledToolchains(): Promise<any[]> {
     try {
-      const result = await $`& ${this.vsWherePath} -format json -products * -requires Microsoft.VisualStudio.Workload.VCTools`;
+      const result = await $`& ${this.vsWherePath} -format json -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64`;
       return JSON.parse(result.stdout);
     } catch (error) {
-      console.log(chalk.yellow('No MSVC toolchain detected:'), error.message);
+      console.log(chalk.yellow('MSVC toolchain detected failed: '), error.message);
       return [];
     }
   }
@@ -106,7 +105,7 @@ class MSVCToolchainManager {
 
   async installOrRelocateToolchain(): Promise<void> {
     try {
-      if (findVcvarsall(undefined, this.customInstallDir) === this.customInstallDir) {
+      if (findVcvarsall(undefined, this.customInstallDir).startsWith(this.customInstallDir)) {
         console.log(chalk.green('MSVC toolchain already installed at desired location'));
         return;
       }
@@ -125,8 +124,10 @@ class MSVCToolchainManager {
           return instance.installationPath === this.customInstallDir;
         })) {
           console.log(chalk.green('MSVC toolchain already installed at desired location'));
-          return;
+        } else {
+          // TODO: Handle case where installed but not in the desired location
         }
+        return;
       }
       // not install or installed but not in the desired location
       console.log(chalk.yellow('installing MSVC toolchain...'));

@@ -1,3 +1,6 @@
 [submodule "src/ElaWidgeTools"]
 	path = src/ElaWidgeTools
 	url = https://github.com/Liniyous/ElaWidgetTools.git
+[submodule "src/ElaWidgetTools"]
+	path = src/ElaWidgetTools
+	url = https://github.com/Liniyous/ElaWidgetTools.git
