@@ -23,7 +23,7 @@ class MainWindow : public ElaWindow {
     Q_OBJECT
 
 public:
-    MainWindow( QWidget* parent = nullptr );
+    explicit MainWindow( QWidget* parent = nullptr );
     ~MainWindow();
 
     void initWindow();

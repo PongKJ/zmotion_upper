@@ -12,7 +12,7 @@ export const linuxPkgsToInstall = {
 // ---- MSVC Toolchain Install Path ----
 // TODO: Change this to specify MSVC toolchain Install Path
 // WARN: Don't include spaces or special characters in the path
-export const MSVCInstallDir = "C:\\MicrosoftVisualStudio"
+export const MSVCInstallDir = "G:\\install\\MSVC"
 
 // ---- Other packages to install -----
 export const windowsPkgsToInstall = ['python', 'conan', 'ninja', 'cmake', 'nsis.portable', 'ccache', 'cppcheck', 'opencppcoverage']

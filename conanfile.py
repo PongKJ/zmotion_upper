@@ -1,9 +1,5 @@
-# This file is managed by Conan, contents will be overwritten.
-# To keep your changes, remove these comment lines, but the plugin won't be able to modify your requirements
-
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, cmake_layout
-
 
 class ConanApplication(ConanFile):
     package_type = "application"
@@ -40,7 +36,5 @@ class ConanApplication(ConanFile):
         self.requires("qt/6.6.3")
 
     def configure(self):
-        self.options["libiconv"].shared = True
         if str(self.settings.os) == "Linux":
-            self.options["qt"].qtwayland = True
             self.options["qt"].with_x11 = False
